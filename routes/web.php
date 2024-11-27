@@ -56,7 +56,6 @@ Route::middleware([
     Route::get('/student-program', StudentProgram::class)->name('student-program');
     Route::get('/profiling', StudentProfiling::class)->name('profiling');
     Route::get('/staff', Staff::class)->name('staff');
-    Route::get('/staff-profiling', StaffProfiling::class)->name('staff-profiling');
     Route::get('/staff-program', StaffProgram::class)->name('staff-program');
     Route::get('/records', Records::class)->name('records');
     Route::get('/instructor', Instructor::class)->name('instructor');
@@ -68,6 +67,7 @@ Route::middleware([
     Route::get('/exercise-maker', ExerciseMaker::class)->name('exercise-maker');
     Route::get('/program-maker', ProgramMaker::class)->name('program-maker');
     Route::get('/recommendations', RecommendPage::class)->name('recommend');
+    Route::get('/staff-profiling', StaffProfiling::class)->name('staff-profiling');
 
 
 });

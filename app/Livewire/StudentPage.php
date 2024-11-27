@@ -32,6 +32,7 @@ class StudentPage extends Component
     {
         $user = Auth::user();
         $profile = Profile::where('user_id', $user->id)->first();
+        $suggestions = null;
         if (!$profile) {
             $recommends = Schedule::where('status', 'Available')->paginate(6);
         } else {
@@ -46,17 +47,19 @@ class StudentPage extends Component
                           ->where('expertise', $profile->area);
                 })
                 ->paginate(6);
-        }
 
-        $suggestions = $recommends->filter(function ($recommend) use ($profile) {
-            // Check if any of the focus areas match the profile's focus area criteria
-            foreach ($recommend->program_schedule as $program_schedule) {
-                if ($program_schedule->focus_area->name == $profile->area) {
-                    return true;
+            $suggestions = $recommends->filter(function ($recommend) use ($profile) {
+                // Check if any of the focus areas match the profile's focus area criteria
+                foreach ($recommend->program_schedule as $program_schedule) {
+                    if ($program_schedule->focus_area->name == $profile->area) {
+                        return true;
+                    }
                 }
-            }
-            return false;
-        });
+                return false;
+            });
+        }
+        // Nag baliktad ang suggestions ug recommendations HAHAH
+        
         $exercises = Programschedule::get();
         return view('livewire.student-page', compact('recommends','exercises','profile', 'suggestions'));
 

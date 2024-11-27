@@ -9,8 +9,8 @@
     @else
         {{-- Recommended Classes Section --}}
         @if (!$recommends->isEmpty())
-            <h1 class="font-xl text-xl font-bold uppercase sm:col-span-2">Recommended Classes</h1>
-            <span class="font-sm text-sm text-red-700 sm:col-span-2">Classes shown below are based on your goal.</span>
+            <h1 class="font-xl text-xl font-bold uppercase sm:col-span-2">Matched Classes</h1>
+            <span class="font-sm text-sm text-red-700 sm:col-span-2">Matched program/s based on your data.</span>
             @foreach($recommends->where('goal', $profile->goal) as $recommend)           
                 <div class="flex justify-center mt-2 mb-5">
                     <div class="w-full rounded overflow-hidden shadow-lg bg-sky-200 p-3">
@@ -41,7 +41,7 @@
 
         {{-- Suggested Classes Section --}}
         @if (!$suggestions->isEmpty())
-            <h1 class="font-xl text-xl font-bold uppercase sm:col-span-2 mt-10">Suggested Classes</h1>
+            <h1 class="font-xl text-xl font-bold uppercase sm:col-span-2 mt-10">Recommended Classes</h1>
             <span class="font-sm text-sm text-red-700 sm:col-span-2">Classes shown below are based on your preferences and activity.</span>
             @foreach($suggestions as $suggestion)
                 <div class="flex justify-center mt-2 mb-5">

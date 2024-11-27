@@ -1,0 +1,61 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Schedule extends Model
+{
+    use HasFactory;
+    
+    protected $table = 'schedules';
+
+    protected $fillable = [
+        'user_id',
+        'program',
+        'goal',
+        'level',
+        'sunday_start',
+        'monday_start',
+        'tuesday_start',
+        'wednesday_start',
+        'thursday_start',
+        'friday_start',
+        'saturday_start',
+        'sunday_end',
+        'monday_end',
+        'tuesday_end',
+        'wednesday_end',
+        'thursday_end',
+        'friday_end',
+        'saturday_end',
+        'status',
+        'student_id',
+        'progress',
+        'progressing',
+        'm',
+        't',
+        'w',
+        'th',
+        'f',
+        'sat',
+        'sun'
+    ];
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function student()
+    {
+        return $this->belongsTo(User::class, 'student_id');
+    }
+    
+    public function programs()
+    {
+    return $this->belongsToMany(Program::class, 'program_schedules');
+    }
+
+}

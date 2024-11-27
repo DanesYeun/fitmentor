@@ -89,6 +89,16 @@
                                     </x-responsive-nav-link>
                                 </li>
                                 <li class="py-2">
+                                    <x-responsive-nav-link href="{{ route('exercise') }}" :active="request()->routeIs('exercise')" wire:navigate>
+                                        {{ __('Manage Exercise') }}
+                                    </x-responsive-nav-link>
+                                </li>
+                                <li class="py-2">
+                                    <x-responsive-nav-link href="{{ route('focus-area') }}" :active="request()->routeIs('focus-area')" wire:navigate>
+                                        {{ __('Manage Focus Area') }}
+                                    </x-responsive-nav-link>
+                                </li>
+                                <li class="py-2">
                                     <x-responsive-nav-link href="{{ route('records')}}" :active="request()->routeIs('records')" wire:navigate>
                                         {{ __('Enrollment Records') }}
                                     </x-responsive-nav-link>

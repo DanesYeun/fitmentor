@@ -26,5 +26,10 @@ class Programschedule extends Model
     {
         return $this->belongsTo(Exercise::class, 'exercise_id');
     }
+
+    public function focus_area()
+    {
+        return $this->belongsTo(FocusArea::class, 'focus_area_id');
+    }
 }
 

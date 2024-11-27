@@ -25,6 +25,7 @@ use App\Livewire\ExerciseMaker;
 use App\Livewire\ProgramMaker;
 use App\Livewire\RecommendPage;
 use App\Livewire\AdminProgram;
+use App\Livewire\FocusAreaPage;
 use App\Livewire\StaffProfiling;
 
 use App\Models\User;
@@ -64,6 +65,7 @@ Route::middleware([
     Route::get('/exercise/edit/{exercise}', ExerciseEdit::class)->name('exercise.edit');
     Route::get('/program/edit/{program}', ProgramEdit::class)->name('program.edit');
     Route::get('/exercise-manager', ExercisePage::class)->name('exercise');
+    Route::get('/focus-area', FocusAreaPage::class)->name('focus-area');
     Route::get('/exercise-maker', ExerciseMaker::class)->name('exercise-maker');
     Route::get('/program-maker', ProgramMaker::class)->name('program-maker');
     Route::get('/recommendations', RecommendPage::class)->name('recommend');

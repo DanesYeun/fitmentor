@@ -33,7 +33,7 @@ class CreateNewUser implements CreatesNewUsers
         // Handle profile picture upload
         $imagePath = null;
         if (isset($input['profile_picture'])) {
-            $imagePath = Storage::disk('public')->put('profile-photos', $input['profile_picture']);
+            $imagePath = Storage::disk('public')->put('profile_photos', $input['profile_picture']);
         }
 
         return User::create([

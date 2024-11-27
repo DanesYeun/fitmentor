@@ -1,4 +1,9 @@
 <div class="w-full">
+    @if (session()->has('message'))
+        <div class="p-4 bg-green-500 rounded-lg text-green-800 text-lg font-semibold shadow-md flex justify-center mx-auto w-1/3">
+            {{ session('message') }}
+        </div>
+    @endif
         @if($showDeleteModal)
                 <x-modal>
                     <div class="p-6 bg-blue-200 text-black">
@@ -7,7 +12,7 @@
 
                         <div class="flex justify-end">
                             <x-button wire:click="$set('showDeleteModal', false)" class="bg-gray-300 mr-2">Cancel</x-button>
-                            <x-button wire:click="deleteExercise" class="bg-red-600 text-white">Delete</x-button>
+                            <x-button wire:click="deleteprogram" class="bg-red-600 text-white">Delete</x-button>
                         </div>
                     </div>
                 </x-modal>

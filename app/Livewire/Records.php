@@ -20,8 +20,10 @@ class Records extends Component
     public $search;
     public $user_id;
     public $page = '5';
+    public $showDeleteModal = false;
     public $showModal = false;
     public $selectedSchedule;
+    public $scheduleID;
 
     public function viewUser($scheduleId)
     {
@@ -38,6 +40,24 @@ class Records extends Component
         $this->resetPage();
     }
 
+    public function confirmDelete($scheduleID)
+    {
+        $this->scheduleID = $scheduleID;
+        $this->showDeleteModal = true; 
+    }
+
+    public function deleteEnrollment()
+    {
+        if ($this->scheduleID) {
+            Schedule::find($this->scheduleID)->delete();
+            $this->showDeleteModal = false;
+            $this->scheduleID= null;
+
+            session()->flash('message', 'Enrollment deleted successfully!');    
+    
+        }
+    }
+
     public function render()
     {
         if (!auth()->check() || !in_array(auth()->user()->role, ['admin', 'staff'])) {
@@ -45,8 +65,7 @@ class Records extends Component
         }
 
             
-            $schedules = Schedule::where('status', 'Approved')
-                                    ->when($this->search, function ($query) {
+            $schedules = Schedule::when($this->search, function ($query) {
                                         $terms = explode(' ', $this->search);
 
                                             return $query->where(function ($subQuery) use ($terms) {

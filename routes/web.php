@@ -25,6 +25,7 @@ use App\Livewire\ExerciseMaker;
 use App\Livewire\ProgramMaker;
 use App\Livewire\RecommendPage;
 use App\Livewire\AdminProgram;
+use App\Livewire\StaffProfiling;
 
 use App\Models\User;
 
@@ -66,6 +67,7 @@ Route::middleware([
     Route::get('/exercise-maker', ExerciseMaker::class)->name('exercise-maker');
     Route::get('/program-maker', ProgramMaker::class)->name('program-maker');
     Route::get('/recommendations', RecommendPage::class)->name('recommend');
+    Route::get('/staff-profiling', StaffProfiling::class)->name('staff-profiling');
 
 
 });

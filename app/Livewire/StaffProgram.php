@@ -36,6 +36,9 @@ class StaffProgram extends Component
             Program::find($this->program)->delete();
             $this->showDeleteModal = false;
             $this->program= null;
+
+            session()->flash('message', 'Program deleted successfully!');    
+    
         }
     }
 

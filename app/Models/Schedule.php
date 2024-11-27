@@ -58,6 +58,18 @@ class Schedule extends Model
         return $this->belongsToMany(Program::class, 'program_schedules');
     }
 
+    public function focusAreas()
+    {
+        return $this->hasManyThrough(
+            FocusArea::class,        
+            Programschedule::class, 
+            'schedule_id',            // Foreign key on program_schedules
+            'id',                     // Foreign key on focus_areas
+            'id',                     // Local key on schedules
+            'focus_area_id'           // Local key on program_schedules
+        );
+    }
+
     public function program_schedule()
     {
         return $this->hasMany(Programschedule::class, 'schedule_id');

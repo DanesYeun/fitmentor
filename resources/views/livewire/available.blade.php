@@ -55,6 +55,7 @@
                                         <div>
                                             <p class="text-lg font-bold">Program: {{ $schedule->program }}</p>
                                             <p class="text-lg">Goal: {{$schedule->goal}}</p>
+                                            <p class="text-lg">Focus Area: {{ $schedule->focusAreas->isNotEmpty() ? $schedule->focusAreas[0]->name : 'No focus area' }}</p>
                                             <p class="text-lg">Instructor: {{$schedule->user->name}}</p>
                                             <p class="text-lg">Student: {{$schedule->student->name ?? ''}}</p>
                                             <p class="text-lg">Exercises</p>

@@ -1,4 +1,9 @@
 <div class="w-full">
+@if (session()->has('message'))
+    <div class="p-4 bg-green-500 rounded-lg text-green-800 text-lg font-semibold shadow-md flex justify-center mx-auto w-1/3">
+        {{ session('message') }}
+    </div>
+@endif
             <div class="w-3/4 flex justify-between mx-auto mt-10">
                 <div>
                     <span class="text-black">Show</span>
@@ -69,6 +74,7 @@
                                         <div>
                                             <p class="text-lg font-bold">Program: {{ $schedule->program }}</p>
                                             <p class="text-lg">Goal: {{$schedule->goal}}</p>
+                                            <p class="text-lg">Focus Area: {{ $schedule->focusAreas->isNotEmpty() ? $schedule->focusAreas[0]->name : 'No focus area' }}</p>
                                             <p class="text-lg">Instructor: {{$schedule->user->name}}</p>
                                             <p class="text-lg">Student: {{$schedule->student->name ?? ''}}</p>
                                             <p class="text-lg">Exercises</p>

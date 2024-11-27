@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\FocusArea;
 use Livewire\Component;
 use App\Models\Profile;
 use App\Models\Schedule;
@@ -112,29 +113,29 @@ class StudentProfiling extends Component
         }
 
         $this->resetExcept(['profileId']);
+        
+        return redirect()->route('dashboard');
     }
 
     public function render()
     {   
         $user = Auth::user();
         $profile = Profile::where('user_id', $user->id)->first();
+        
         if (!$profile) {
             $recommends = Schedule::where('status', 'Available')->paginate(6);
         } else {
-        $recommends = Schedule::where('status', 'Available')->where(function ($query) use ($profile) {
-            $query->where('goal', $profile->goal)
-                  ->orWhere('level', $profile->level);
-        })
-        ->orWhere('user_id', function ($query) use ($profile) {
-            $query->select('id')
-                  ->from('users')
-                  ->where('expertise', $profile->area);
-        })
-        ->paginate(3);
+            $recommends = Schedule::where('status', 'Available')
+                ->where('goal', $profile->goal)  // Ensures the goal matches
+                ->where(function ($query) use ($profile) {
+                    $query->where('level', $profile->level);
+                })
+                ->paginate(6);
         }
 
         $exercises = Programschedule::get();
-        return view('livewire.student-profiling', compact('recommends','exercises','profile'));
+        $focus_areas = FocusArea::all();
+        return view('livewire.student-profiling', compact('recommends','exercises','profile', 'focus_areas'));
     }
 
 }

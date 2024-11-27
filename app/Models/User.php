@@ -66,13 +66,13 @@ class User extends Authenticatable
         ];
     }
     public function profile()
-{
-    return $this->hasOne(Profile::class);
-}
+    {
+        return $this->hasOne(Profile::class);
+    }
 
-public function schedules()
-{
-    return $this->hasMany(Schedule::class);
-}
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class);
+    }
 
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\StudentProgress;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\InstructorManager;
 use App\Livewire\ProgramManager;
@@ -55,6 +56,7 @@ Route::middleware([
     Route::get('/staff-manager', StaffManager::class)->name('staff-manager');
     Route::get('/student-manager', StudentManager::class)->name('student-manager');
     Route::get('/student-program', StudentProgram::class)->name('student-program');
+    Route::get('/studednt-progress', StudentProgress::class)->name('student-progress');
     Route::get('/profiling', StudentProfiling::class)->name('profiling');
     Route::get('/staff', Staff::class)->name('staff');
     Route::get('/staff-program', StaffProgram::class)->name('staff-program');
@@ -70,6 +72,5 @@ Route::middleware([
     Route::get('/program-maker', ProgramMaker::class)->name('program-maker');
     Route::get('/recommendations', RecommendPage::class)->name('recommend');
     Route::get('/staff-profiling', StaffProfiling::class)->name('staff-profiling');
-
 
 });

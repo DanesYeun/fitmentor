@@ -47,8 +47,18 @@ class StudentPage extends Component
                 })
                 ->paginate(6);
         }
+
+        $suggestions = $recommends->filter(function ($recommend) use ($profile) {
+            // Check if any of the focus areas match the profile's focus area criteria
+            foreach ($recommend->program_schedule as $program_schedule) {
+                if ($program_schedule->focus_area->name == $profile->area) {
+                    return true;
+                }
+            }
+            return false;
+        });
         $exercises = Programschedule::get();
-        return view('livewire.student-page', compact('recommends','exercises','profile'));
+        return view('livewire.student-page', compact('recommends','exercises','profile', 'suggestions'));
 
     }
     public function viewRecommend($recommendId)

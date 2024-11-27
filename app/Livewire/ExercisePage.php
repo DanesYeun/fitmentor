@@ -37,6 +37,9 @@ class ExercisePage extends Component
             $this->showDeleteModal = false;
             $this->exercise= null;
         }
+
+        session()->flash('message', 'Excercise deleted successfully!');  
+
     }
 
     public function render()

@@ -16,7 +16,7 @@
         <div class="flex justify-center">
             <div class="w-80 h-48 rounded overflow-hidden shadow-lg bg-red-400"> <!-- Set fixed width and height -->
               <div class="px-6 py-4">
-                <div class="font-bold text-black text-xl mb-2">Number of Availables</div>
+                <div class="font-bold text-black text-xl mb-2">Number of Available Enrollments</div>
                 <p class="text-black text-base font-bold text-5xl font-3xl text-center mt-8">
                   {{$availables}}
                 </p>
@@ -30,7 +30,7 @@
         <div class="flex justify-center">
             <div class="w-80 h-48 rounded overflow-hidden shadow-lg bg-red-400"> <!-- Set fixed width and height -->
               <div class="px-6 py-4">
-                <div class="font-bold text-black text-xl mb-2">Number of Approved</div>
+                <div class="font-bold text-black text-xl mb-2">Number of Approved Enrollments</div>
                 <p class="text-black text-base font-bold text-5xl font-3xl text-center mt-8">
                   {{$approves}} 
                 </p>
@@ -44,7 +44,7 @@
         <div class="flex justify-center">
             <div class="w-80 h-48 rounded overflow-hidden shadow-lg @if(!$pendings)bg-red-400 @else bg-red-600 animate-pulse @endif"> <!-- Set fixed width and height -->
               <div class="px-6 py-4">
-                <div class="font-bold text-black text-xl mb-2">Number of Pendings</div>
+                <div class="font-bold text-black text-xl mb-2">Number of Pending Enrollments</div>
                 <p class="text-black text-base font-bold text-5xl font-3xl text-center mt-8">
                   {{$pendings}} 
                 </p>

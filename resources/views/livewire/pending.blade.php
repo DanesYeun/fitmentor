@@ -1,4 +1,9 @@
 <div class="w-full">
+@if (session()->has('message'))
+    <div class="p-4 bg-green-500 rounded-lg text-green-800 text-lg font-semibold shadow-md flex justify-center mx-auto w-1/3">
+        {{ session('message') }}
+    </div>
+@endif
             <div class="w-3/4 flex justify-between mx-auto mt-10">
                 <div>
                     <span class="text-black">Show</span>

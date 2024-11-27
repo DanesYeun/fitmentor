@@ -36,7 +36,7 @@ class Pending extends Component
 
     public function viewProgram($scheduleID)
     {
-        $this->schedule = Schedule::find($scheduleID);
+        $this->schedule = Schedule::with('focusAreas')->find($scheduleID);
         $this->showModal = true;
     }
  
@@ -90,7 +90,7 @@ class Pending extends Component
                     'student_id' => $cancelEnroll->student->id,
                 ]);
             }
-        session()->flash('message', 'Enrollment cancelled.');
+        session()->flash('message', 'Enrollment Approved.');
         $this->reset();
     }
 

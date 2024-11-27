@@ -1,4 +1,9 @@
 <div class="w-full">
+@if (session()->has('message'))
+    <div class="p-4 bg-green-500 rounded-lg text-green-800 text-lg font-semibold shadow-md flex justify-center mx-auto w-1/3">
+        {{ session('message') }}
+    </div>
+@endif
 @if($showDeleteModal)
                 <x-modal>
                     <div class="p-6 bg-blue-200 text-black">
@@ -25,7 +30,7 @@
                     <span class="text-black">entries</span>
                 </div>
                 <div>
-                    <a href="{{ route ('program') }}"><x-button class="bg-sky-400"><i class="fa-solid fa-plus"></i>Create Program</x-button></a>
+                    <a href="{{ route ('program') }}"><x-button class="bg-sky-400"><i class="fa-solid fa-plus"></i>Create Schedule</x-button></a>
                 </div>
             </div>
 
@@ -63,9 +68,9 @@
                                         </button>
                                         <div id="dropdownMenu-{{ $allsched->id }}" class="z-10 hidden bg-white rounded-lg shadow dark:bg-gray-700 absolute transform -translate-x-1/3 mt-2">
                                             <div class="bg-blue-300 p-3">
-                                                <x-button wire:click="viewProgram({{ $allsched->id }})">View</x-button>
-                                                <x-button onclick="window.location=''">Edit</x-button>
-                                                <x-button wire:click="confirmDelete({{ $allsched->id }})">Delete</x-button>
+                                                <x-button class="bg-sky-400" wire:click="viewProgram({{ $allsched->id }})">View</x-button>
+                                                <x-button class="bg-sky-400" onclick="window.location='{{ route('schedule.edit', $allsched->id) }}'">Edit</x-button>
+                                                <x-button class="bg-sky-400" wire:click="confirmDelete({{ $allsched->id }})">Delete</x-button>
                                             </div>
                                         </div>
                                     </div>
@@ -86,6 +91,7 @@
                                         <div>
                                             <p class="text-lg font-bold">Program: {{ $schedule->program }}</p>
                                             <p class="text-lg">Goal: {{$schedule->goal}}</p>
+                                            <p class="text-lg">Focus Area: {{ $schedule->focusAreas->isNotEmpty() ? $schedule->focusAreas[0]->name : 'No focus area' }}</p>
                                             <p class="text-lg">Instructor: {{$schedule->user->name}}</p>
                                             <p class="text-lg">Student: {{$schedule->student->name ?? ''}}</p>
                                             <p class="text-lg">Exercises</p>

@@ -13,7 +13,7 @@
 
                     <div class="flex justify-end">
                         <x-button wire:click="$set('showDeleteModal', false)" class="bg-gray-300 mr-2">Cancel</x-button>
-                        <x-button wire:click="deleteExercise" class="bg-red-600 text-white">Delete</x-button>
+                        <x-button wire:click="deleteFocus" class="bg-red-600 text-white">Delete</x-button>
                     </div>
                 </div>
             </x-modal>
@@ -31,7 +31,7 @@
         <span class="text-black">entries</span>
     </div>
     <div>
-        <a href="{{ route ('exercise-maker') }}"><x-button class="bg-sky-400"><i class="fa-solid fa-plus"></i>Add Exercise</x-button></a>
+        <a href="{{ route ('focus-area-maker') }}"><x-button class="bg-sky-400"><i class="fa-solid fa-plus"></i>Add Focus Area</x-button></a>
     </div>
 </div>
 
@@ -46,13 +46,12 @@
 <table class="w-full mx-auto rounded-lg">
         <thead>
             <tr class="bg-sky-200 text-black rounded-lg">
-                <th class="py-2 w-64">Name</th>
+                <th class="py-2 w-64">Focus Area Name</th>
                 <th class="py-2 w-64">Action</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($focusAreas as $focusArea)
-            {{dd($focusArea)}}
             <tr class="bg-sky-100 text-black rounded-lg">
                 <th class="py-2">{{ $focusArea->name }}</th>
                 <th class="py-2">
@@ -62,10 +61,9 @@
                                 <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
                             </svg>
                         </button>
-                        <div id="dropdownMenu-{{ $exercise->id }}" class="z-10 hidden bg-white rounded-lg shadow dark:bg-gray-700 absolute transform -translate-x-1/3 mt-2">
+                        <div id="dropdownMenu-{{ $focusArea->id }}" class="z-10 hidden bg-white rounded-lg shadow dark:bg-gray-700 absolute transform -translate-x-1/3 mt-2">
                             <div class="bg-blue-300 p-3">
-                                <x-button class="bg-sky-500 shadow-lg" wire:click="viewProgram ({{$focusArea->id}})">View</x-button>
-                                <x-button class="bg-sky-500 shadow-lg" onclick="window.location='{{ route('exercise.edit', $exercise->id) }}'">Edit</x-button>
+                                <x-button class="bg-sky-500 shadow-lg" onclick="window.location='{{ route('focus.area.edit', $focusArea->id) }}'">Edit</x-button>
                                 <x-button class="bg-sky-500 shadow-lg" wire:click="confirmDelete({{ $focusArea->id }})">Delete</x-button>
                             </div>
                         </div>
@@ -76,7 +74,7 @@
         </tbody>
             <tr>
                 <th colspan="4" class="pagination-links text-black bg-sky-300 mt-3 rounded-lg">
-                    {{ $focusArea->links() }}
+                    {{ $focusAreas->links() }}
                 </th>
             </tr>
     </table>
@@ -85,8 +83,8 @@
 </div>
 
 <script>
-function toggleDropdown(exerciseId) {
-    const dropdownMenu = document.getElementById(`dropdownMenu-${exerciseId}`);
+function toggleDropdown(focusAreaID) {
+    const dropdownMenu = document.getElementById(`dropdownMenu-${focusAreaID}`);
     const isVisible = dropdownMenu.classList.contains('hidden');
     
     const allDropdowns = document.querySelectorAll('[id^="dropdownMenu-"]');

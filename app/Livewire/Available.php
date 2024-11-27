@@ -36,7 +36,7 @@ class Available extends Component
 
     public function viewProgram($scheduleID)
     {
-        $this->schedule = Schedule::find($scheduleID);
+        $this->schedule = Schedule::with('focusAreas')->find($scheduleID);
         $this->showModal = true;
     }
  

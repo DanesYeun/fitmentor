@@ -37,7 +37,8 @@ class InstructorSchedule extends Component
 
     public function viewProgram($scheduleID)
     {
-        $this->schedule = Schedule::find($scheduleID);
+        // $this->schedule = Schedule::find($scheduleID);
+        $this->schedule = Schedule::with('focusAreas')->find($scheduleID);
         $this->showModal = true;
     }
 
@@ -52,9 +53,11 @@ class InstructorSchedule extends Component
     public function deleteUser()
     {
         if ($this->schedule) {
-            User::find($this->schedule)->delete();
+            Schedule::find($this->schedule)->delete();
             $this->showDeleteModal = false;
             $this->schedule = null;
+
+            session()->flash('message', 'Schedule deleted successfully!');    
         }
     }
  

@@ -14,6 +14,7 @@ class Programschedule extends Model
     protected $fillable = [
         'schedule_id',
         'exercise_id',
+        'focus_area_id',
     ];
 
 

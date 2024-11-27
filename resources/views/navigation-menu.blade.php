@@ -162,12 +162,12 @@
                                 </li>
                                 <li class="py-2">
                                     <x-responsive-nav-link href="{{ route ('profiling')}}" :active="request()->routeIs('profiling')" wire:navigate>
-                                        {{ __('Profile') }}
+                                        {{ __('Personal Information') }}
                                     </x-responsive-nav-link>
                                 </li>
                                 <li class="py-2">
                                     <x-responsive-nav-link href="{{ route ('recommend')}}" :active="request()->routeIs('recommend')" wire:navigate>
-                                        {{ __('Available Schedules') }}
+                                        {{ __('Available Classes') }}
                                     </x-responsive-nav-link>
                                 </li>
                                 <li class="py-2">
@@ -176,7 +176,7 @@
                                     </x-responsive-nav-link>
                                 </li>
                                 <li class="py-2">
-                                    <x-responsive-nav-link href="" :active="request()->routeIs('')" wire:navigate>
+                                    <x-responsive-nav-link href="{{ route('student-progress') }}" :active="request()->routeIs('student-progress')" wire:navigate>
                                         {{ __('Progress') }}
                                     </x-responsive-nav-link>
                                 </li>

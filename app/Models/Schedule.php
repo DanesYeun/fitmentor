@@ -55,7 +55,7 @@ class Schedule extends Model
     
     public function programs()
     {
-    return $this->belongsToMany(Program::class, 'program_schedules');
+        return $this->belongsToMany(Program::class, 'program_schedules');
     }
 
     public function focusAreas()
@@ -70,4 +70,8 @@ class Schedule extends Model
         );
     }
 
+    public function program_schedule()
+    {
+        return $this->hasMany(Programschedule::class, 'schedule_id');
+    }
 }

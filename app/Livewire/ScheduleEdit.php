@@ -9,21 +9,46 @@ use App\Models\Program;
 use App\Models\FocusArea;
 use App\Models\Programschedule;
 use Livewire\WithPagination;
-use Illuminate\Http\Request;
 
 class ScheduleEdit extends Component
 {
     use WithPagination;
 
-    public $scheduleId, $selectedprogram, $focus, $level, $goal, $program, $selectedItems = [];
-    public $sunday_start, $sunday_end, $monday_start, $monday_end, $tuesday_start, $tuesday_end, $wednesday_start, $wednesday_end, $thursday_start, $thursday_end, $friday_start, $friday_end, $saturday_start, $saturday_end;
+    public $schedule;
+    public $scheduleId, $selectedprogram, $student, $focus, $level, $goal, $instructor, $program, $exercises = [];
+    public $sunday_start, $sunday_end, $monday_start, $monday_end, $tuesday_start, $tuesday_end, $wednesday_start, $wednesday_end;
+    public $thursday_start, $thursday_end, $friday_start, $friday_end, $saturday_start, $saturday_end;
     public $dropdownVisible = false;
 
-    // Initialize the schedule data
-    public function mount($scheduleId)
+    public function mount($id)
     {
-        $this->scheduleId = $scheduleId;
-        $this->loadSchedule();
+        $this->scheduleId = $id;
+        $this->schedule = Schedule::with(['student', 'focusAreas'])->find($id);
+        $this->exercises = Programschedule::with(['exercise'])->where('schedule_id', $id)->get();
+        
+        $this->program = $this->schedule->program;
+        $this->goal = $this->schedule->goal; 
+        $this->focus = $this->schedule->focusAreas->isNotEmpty() ? $this->schedule->focusAreas[0]->name : 'No focus area';
+        $this->instructor = auth()->user()->name;
+        $this->student = $this->schedule->student->name;
+
+        $this->level = $this->schedule->level;
+        $this->sunday_start = $this->schedule->sunday_start;
+        $this->sunday_end = $this->schedule->sunday_end;
+        $this->monday_start = $this->schedule->monday_start;
+        $this->monday_end = $this->schedule->monday_end;
+        $this->tuesday_start = $this->schedule->tuesday_start;
+        $this->tuesday_end = $this->schedule->tuesday_end;
+        $this->wednesday_start = $this->schedule->wednesday_start;
+        $this->wednesday_end = $this->schedule->wednesday_end;
+        $this->thursday_start = $this->schedule->thursday_start;
+        $this->thursday_end = $this->schedule->thursday_end;
+        $this->friday_start = $this->schedule->friday_start;
+        $this->friday_end = $this->schedule->friday_end;
+        $this->saturday_start = $this->schedule->saturday_start;
+        $this->saturday_end = $this->schedule->saturday_end;
+
+        
     }
 
     public function toggleDropdown()
@@ -36,108 +61,55 @@ class ScheduleEdit extends Component
         $this->dropdownVisible = false;
     }
 
-    public function loadSchedule()
-    {
-        // Load the schedule from the database
-        $schedule = Schedule::findOrFail($this->scheduleId);
-        $this->program = $schedule->program;
-        $this->goal = $schedule->goal;
-        $this->level = $schedule->level;
-        $this->sunday_start = $schedule->sunday_start;
-        $this->sunday_end = $schedule->sunday_end;
-        $this->monday_start = $schedule->monday_start;
-        $this->monday_end = $schedule->monday_end;
-        $this->tuesday_start = $schedule->tuesday_start;
-        $this->tuesday_end = $schedule->tuesday_end;
-        $this->wednesday_start = $schedule->wednesday_start;
-        $this->wednesday_end = $schedule->wednesday_end;
-        $this->thursday_start = $schedule->thursday_start;
-        $this->thursday_end = $schedule->thursday_end;
-        $this->friday_start = $schedule->friday_start;
-        $this->friday_end = $schedule->friday_end;
-        $this->saturday_start = $schedule->saturday_start;
-        $this->saturday_end = $schedule->saturday_end;
-        
-        // Load the selected exercises for the schedule
-        $programSchedules = Programschedule::where('schedule_id', $this->scheduleId)->get();
-        $this->selectedItems = $programSchedules->pluck('exercise_id')->toArray();
-        $this->focus = $programSchedules->first()->focus_area_id;
-    }
 
     public function updateSchedule()
     {
-        $counts = [
+
+        $nonNullDayCount = 0;
+        $days = [
             'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'
         ];
-        $nonNullDayCount = 0;
-        foreach ($counts as $count) {
-            if (!empty($this->{$count . '_start'}) || !empty($this->{$count . '_end'})) {
+
+        foreach ($days as $day) {
+            if (!empty($this->{$day . '_start'}) || !empty($this->{$day . '_end'})) {
                 $nonNullDayCount++;
             }
         }
 
+        // check at least one start and end time pair is set
         $validDay = false;
-        $days = [
-            ['start' => $this->sunday_start, 'end' => $this->sunday_end],
-            ['start' => $this->monday_start, 'end' => $this->monday_end],
-            ['start' => $this->tuesday_start, 'end' => $this->tuesday_end],
-            ['start' => $this->wednesday_start, 'end' => $this->wednesday_end],
-            ['start' => $this->thursday_start, 'end' => $this->thursday_end],
-            ['start' => $this->friday_start, 'end' => $this->friday_end],
-            ['start' => $this->saturday_start, 'end' => $this->saturday_end],
-        ];
         foreach ($days as $day) {
-            if (!is_null($day['start']) && !is_null($day['end'])) {
+            if (!is_null($this->{$day . '_start'}) && !is_null($this->{$day . '_end'})) {
                 $validDay = true;
                 break;
             }
         }
 
         if (!$validDay) {
-            session()->flash('message1', 'Please set at least one start time and one end time for the same day!');
+            session()->flash('message', 'Please set at least one start time and one end time for the same day!');
             return;
         }
 
-        if ($validDay) {
-            // Update the schedule
-            $schedule = Schedule::findOrFail($this->scheduleId);
-            $schedule->update([
-                'program' => $this->program,
-                'goal' => $this->goal,
-                'level' => $this->level,
-                'sunday_start' => $this->sunday_start ?? null,
-                'sunday_end' => $this->sunday_end ?? null,
-                'monday_start' => $this->monday_start ?? null,
-                'monday_end' => $this->monday_end ?? null,
-                'tuesday_start' => $this->tuesday_start ?? null,
-                'tuesday_end' => $this->tuesday_end ?? null,
-                'wednesday_start' => $this->wednesday_start ?? null,
-                'wednesday_end' => $this->wednesday_end ?? null,
-                'thursday_start' => $this->thursday_start ?? null,
-                'thursday_end' => $this->thursday_end ?? null,
-                'friday_start' => $this->friday_start ?? null,
-                'friday_end' => $this->friday_end ?? null,
-                'saturday_start' => $this->saturday_start ?? null,
-                'saturday_end' => $this->saturday_end ?? null,
-                'progress' => $nonNullDayCount,
-                'status' => 'Available',
-                'progressing' => 0,
-            ]);
+        $schedule = Schedule::findOrFail($this->scheduleId);
 
-            // Remove old exercises and attach selected ones
-            Programschedule::where('schedule_id', $this->scheduleId)->delete();
+        $schedule->update([
+            'sunday_start' => $this->sunday_start ?? null,
+            'sunday_end' => $this->sunday_end ?? null,
+            'monday_start' => $this->monday_start ?? null,
+            'monday_end' => $this->monday_end ?? null,
+            'tuesday_start' => $this->tuesday_start ?? null,
+            'tuesday_end' => $this->tuesday_end ?? null,
+            'wednesday_start' => $this->wednesday_start ?? null,
+            'wednesday_end' => $this->wednesday_end ?? null,
+            'thursday_start' => $this->thursday_start ?? null,
+            'thursday_end' => $this->thursday_end ?? null,
+            'friday_start' => $this->friday_start ?? null,
+            'friday_end' => $this->friday_end ?? null,
+            'saturday_start' => $this->saturday_start ?? null,
+            'saturday_end' => $this->saturday_end ?? null
+        ]);
 
-            foreach ($this->selectedItems as $selectedItem) {
-                Programschedule::create([
-                    'exercise_id' => $selectedItem,
-                    'schedule_id' => $schedule->id,
-                    'focus_area_id' => $this->focus,
-                ]);
-            }
-
-            session()->flash('message', 'Schedule updated successfully!');
-            $this->reset();
-        }
+        session()->flash('success', 'Schedule updated successfully!');
     }
 
     public function resetPage()
@@ -150,9 +122,10 @@ class ScheduleEdit extends Component
         if (!auth()->check() || !in_array(auth()->user()->role, ['staff', 'instructor'])) {
             abort(403, 'Unauthorized');
         }
-        $programs = Program::get();
-        $exercises = Exercise::get();
-        $focusAreas = FocusArea::get();
+
+        $programs = Program::all();
+        $exercises = Exercise::all();
+        $focusAreas = FocusArea::all();
 
         return view('livewire.schedule-edit', compact('exercises', 'programs', 'focusAreas'));
     }

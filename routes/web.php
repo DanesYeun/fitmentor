@@ -31,6 +31,7 @@ use App\Livewire\StaffProfiling;
 use App\Livewire\FocusAreaEdit;
 use App\Livewire\FocusAreaMaker;
 use App\Livewire\ScheduleEdit;
+use App\Livewire\InstructorStudentsProgress;
 
 use App\Models\User;
 
@@ -79,5 +80,6 @@ Route::middleware([
     Route::get('/staff-profiling', StaffProfiling::class)->name('staff-profiling');
     Route::get('/schedule/edit/{id}', ScheduleEdit::class)->name('schedule.edit');
     Route::get('/instructor-profiling', StaffProfiling::class)->name('instructor-profiling');
+    Route::get('/students-progress', InstructorStudentsProgress::class)->name('instructor-students-progress');
 
 });

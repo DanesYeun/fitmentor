@@ -6,11 +6,8 @@
     @endif
     <div>
     <div x-data="{ open: false }" class="w-full p-5">
-        <!-- <button @click="open = !open" class="text-black rounded hover:text-sky-500">
-            <i class="fa-solid fa-plus">Show Form</i> 
-        </button> -->
         <div x-transition>
-        <form wire:submit.prevent="profiling" enctype="multipart/form-data" class="bg-sky-300 mt-5 mx-auto w-4/6 p-3 shadow-md rounded-lg">
+        <form wire:submit.prevent="profiling" enctype="multipart/form-data" class="bg-gray-300 mt-5 mx-auto w-4/6 p-3 shadow-md rounded-lg">
         @csrf
             <span class="text-black"><strong><i class="fa-solid fa-user mx-2"></i>Personal Information</strong></span>
             <div class="flex flex-col sm:flex-row gap-4">
@@ -70,6 +67,10 @@
                             <option value="Boost Cardiovascular Fitness">Boost Cardiovascular Fitness</option>
                             <option value="Enhance Flexibility">Enhance Flexibility</option>   
                         </select>   
+                        <div>
+
+</div>
+
                 </div>
                 <div class="mt-4 w-full sm:w-1/3">  
                     <label for="area" class="block text-sm font-medium text-black">Focus Area</label>

@@ -9,7 +9,7 @@
             {{ session('message') }}
         </div>
     @endif
-    <div class="w-3/4 mx-auto bg-sky-300 rounded-lg p-3 shadow-lg text-black">
+    <div class="w-3/4 mx-auto bg-gray-300 rounded-lg p-3 shadow-lg text-black">
     <form wire:submit.prevent="updateUser">
         <div class="mb-4">
             <label for="profile_photo" class="block text-sm font-medium">Profile Photo</label>

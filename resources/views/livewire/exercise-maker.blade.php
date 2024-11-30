@@ -7,7 +7,7 @@
                     {{ session('message') }}
                 </div>
             @endif
-    <div class="bg-sky-300 text-black rounded-lg mx-auto w-1/3 mt-10 p-3">
+    <div class="bg-gray-300 text-black rounded-lg mx-auto w-1/3 mt-10 p-3">
         @error('name')<span class="p-4 bg-red-500 rounded-lg text-red-800 text-lg font-semibold shadow-md flex justify-center mx-auto w-1/3">{{ $message }}</span> @enderror
             
                     <form wire:submit.prevent="create" enctype="multipart/form-data">

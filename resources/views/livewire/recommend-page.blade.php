@@ -2,7 +2,7 @@
             <div class="w-3/4 flex justify-between mx-auto mt-10">
                 <div>
                     <span class="text-black">Show</span>
-                    <select wire:model.live="page" class="text-black bg-blue-300 w-16 h-10">
+                    <select wire:model.live="page" class="text-black bg-gray-300 w-16 h-10">
                         <option value="5">5</option>
                         <option value="10">10</option>
                         <option value="20">20</option>
@@ -15,15 +15,15 @@
 
             <div class="w-full flex justify-end">
                 <div class="w-1/3 mr-5">   
-                    <x-input type="search" autofocus wire:model.live.debounce.1000ms="search" class="w-full md:w-3/4 lg:w-2/3 text-black mt-10 mb-3 focus:border-sky-400 bg-sky-300" placeholder="Search here ..."/>
+                    <x-input type="search" autofocus wire:model.live.debounce.1000ms="search" class="w-full md:w-3/4 lg:w-2/3 text-black mt-10 mb-3 focus:border-gray-400 bg-gray-300" placeholder="Search here ..."/>
                 </div>
             </div>
 
             <div>
-                <div class="w-3/4 mx-auto rounded-lg bg-sky-300 p-2 mb-10">
+                <div class="w-3/4 mx-auto rounded-lg bg-gray-300 p-2 mb-10">
                     <table class="w-full mx-auto rounded-lg">
                         <thead>
-                            <tr class="bg-sky-200 text-black rounded-lg">
+                            <tr class="bg-gray-200 text-black rounded-lg">
                                 <th class="py-2 w-64">Program Name</th>
                                 <th class="py-2 w-64">Instructor</th>
                                 <th class="py-2 w-64">Status</th>
@@ -32,19 +32,19 @@
                         </thead>
                         <tbody>
                             @foreach ($recommends as $recommend)
-                            <tr class="bg-sky-100 text-black rounded-lg">
+                            <tr class="bg-gray-100 text-black rounded-lg">
                                 <th class="py-2">{{ $recommend->program }}</th>
                                 <th class="py-2">{{ $recommend->user->name }}</th>
                                 <th class="py-2">{{ $recommend->status }}</th>
                                 <th class="py-2">                                   
                                     <div class="inline-block text-left">
-                                        <button id="dropdownButton-{{ $recommend->id }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center" onclick="toggleDropdown({{ $recommend->id }})">
+                                        <button id="dropdownButton-{{ $recommend->id }}" class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center" onclick="toggleDropdown({{ $recommend->id }})">
                                             <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
                                             </svg>
                                         </button>
                                         <div id="dropdownMenu-{{ $recommend->id }}" class="z-10 hidden bg-white rounded-lg shadow dark:bg-gray-700 absolute transform -translate-x-1/3 mt-2">
-                                            <div class="bg-blue-300 p-3">
+                                            <div class="bg-gray-300 p-3">
                                                 <x-button wire:click="viewProgram({{ $recommend->id }})">View</x-button>
                                                 <x-button wire:click="enroll({{ $recommend->id }})">Enroll</x-button>
                                             </div>
@@ -55,14 +55,14 @@
                             @endforeach
                         </tbody>
                         <tr>
-                            <th colspan="5" class="pagination-links text-black bg-sky-300 mt-3 rounded-lg">
+                            <th colspan="5" class="pagination-links text-black bg-gray-300 mt-3 rounded-lg">
                                 {{ $recommends->links() }}
                             </th>
                         </tr>
                     </table>
                         @if($showModal)
                             <x-modal>  
-                                <div class="recommend-item w-full max-w-4xl p-4 border rounded-lg shadow bg-sky-400 text-black">
+                                <div class="recommend-item w-full max-w-4xl p-4 border rounded-lg shadow bg-gray-100 text-black">
                                     <div class="grid grid-cols-2">
                                         <div>
                                             <p class="text-lg font-bold">Program: {{ $schedule->program }}</p>

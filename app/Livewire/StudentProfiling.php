@@ -81,6 +81,7 @@ class StudentProfiling extends Component
 
     public function mount()
     {
+        $user = auth()->user();
         $profile = Profile::where('user_id', auth()->user()->id)->first();
 
         if ($profile) {
@@ -96,6 +97,8 @@ class StudentProfiling extends Component
             $this->goal = $profile->goal;
             $this->level = $profile->level;
             $this->name = $profile->name;
+        } else {
+            $this->name = $user->name;
         }
     }
 
@@ -135,7 +138,7 @@ class StudentProfiling extends Component
 
         $exercises = Programschedule::get();
         $focus_areas = FocusArea::all();
-        return view('livewire.student-profiling', compact('recommends','exercises','profile', 'focus_areas'));
+        return view('livewire.student-profiling', compact('user', 'recommends','exercises','profile', 'focus_areas'));
     }
 
 }

@@ -19,12 +19,12 @@
         </div>
     @endif
             <div class="items-center sm:pt-0 p-3 mx-auto w-3/4">
-                <div class="w-full px-6 py-4 shadow-md sm:rounded-lg bg-sky-300">
+                <div class="w-full px-6 py-4 shadow-md sm:rounded-lg bg-gray-300">
                     <form wire:submit.prevent="createschedule" enctype="multipart/form-data">
                         @csrf
                         <div class="flex flex-col sm:flex-row gap-4">
                             <div class="mt-4 w-full sm:w-1/3">
-                                <select wire:model="program" class="mt-1.5 w-full text-black rounded-lg bg-sky-200 hover:border-black border-slate-300 inline-flex items-center justify-between" required>
+                                <select wire:model="program" class="mt-1.5 w-full text-black rounded-lg bg-gray-200 hover:border-black border-slate-300 inline-flex items-center justify-between" required>
                                     <option value="" selected>Select a Program</option>
                                     @foreach ($programs as $program)
                                         <option value="{{ $program->name }}">{{ $program->name }}</option>
@@ -33,7 +33,7 @@
                             </div>
 
                             <div class="mt-4 w-full sm:w-1/3">
-                                <select wire:model="goal" class="mt-1.5 w-full text-black rounded-lg bg-sky-200 hover:border-black border-slate-300 inline-flex items-center justify-between" required>
+                                <select wire:model="goal" class="mt-1.5 w-full text-black rounded-lg bg-gray-200 hover:border-black border-slate-300 inline-flex items-center justify-between" required>
                                     <option class="inline-flex items-center justify-between" value="" selected>Select a Goal</option>
                                     <option value="Improve Fitness/Overall Health">Improve Fitness/Overall Health</option>
                                     <option value="Lose Weight">Lose Weight</option>
@@ -46,7 +46,7 @@
                             </div>
                             <div class="mt-4 w-full sm:w-1/3">
                                 <div id="exercise-dropdown" class="relative mt-1.5">
-                                    <button type="button" id="dropdown-toggle" class="bg-sky-200 text-black border border-slate-300 font-medium py-2 px-4 rounded-md inline-flex items-center justify-between w-full">
+                                    <button type="button" id="dropdown-toggle" class="bg-gray-200 text-black border border-slate-300 font-medium py-2 px-4 rounded-md inline-flex items-center justify-between w-full">
                                         @if (empty($selectedItems))
                                             <span>Select Exercise</span>
                                         @else
@@ -67,11 +67,11 @@
                                         </svg>
                                     </button>
 
-                                    <div id="dropdown-menu" class="absolute w-full bg-sky-200 shadow-lg rounded-md z-10 hidden">
+                                    <div id="dropdown-menu" class="absolute w-full bg-gray-200 shadow-lg rounded-md z-10 hidden">
                                         <ul class="list-disc pl-5 max-h-60 overflow-auto">
                                             @foreach($exercises as $exercise)
                                                 <li class="flex items-center p-2">
-                                                    <input type="checkbox" wire:model="selectedItems" value="{{ $exercise['id'] }}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                                                    <input type="checkbox" wire:model="selectedItems" value="{{ $exercise['id'] }}" class="w-4 h-4 text-gray-600 bg-gray-100 border-gray-300 rounded focus:ring-gray-500">
                                                     <label for="exercise-{{ $exercise['id'] }}" class="ml-2 text-md font-medium text-black">
                                                         {{ $exercise['name'] }}
                                                     </label>
@@ -84,7 +84,7 @@
                             {{-- focus area --}}
                             
                             <div class="mt-4 w-full sm:w-1/3">
-                                <select wire:model="focus" class="mt-1.5 w-full text-black rounded-lg bg-sky-200 hover:border-black border-slate-300" required>
+                                <select wire:model="focus" class="mt-1.5 w-full text-black rounded-lg bg-gray-200 hover:border-black border-slate-300" required>
                                     <option value="" selected>Select Focus Area</option>
                                     @foreach($focusAreas as $focusArea)
                                         <option value="{{ $focusArea->id }}">{{ $focusArea->name }}</option>
@@ -94,7 +94,7 @@
 
                             {{-- end of focus area --}}
                             <div class="mt-4 w-full sm:w-1/3">
-                                <select wire:model="level" class="mt-1.5 w-full text-black rounded-lg bg-sky-200 hover:border-black border-slate-300" required>
+                                <select wire:model="level" class="mt-1.5 w-full text-black rounded-lg bg-gray-200 hover:border-black border-slate-300" required>
                                     <option value="" selected>Select Level</option>
                                     <option value="Beginner">Beginner</option>
                                     <option value="Intermediate">Intermediate</option>
@@ -105,7 +105,7 @@
 
 
                         <div class="flex flex-col sm:flex-row gap-4">
-                            <div class="mt-4 w-full sm:w-1/2 bg-sky-200 shadow-lg p-2 rounded-lg">
+                            <div class="mt-4 w-full sm:w-1/2 bg-gray-200 shadow-lg p-2 rounded-lg">
                                 <div class="text-center items-center">
                                     <span class="text-black">Sunday</span>
                                         <div class="flex justify-center gap-3">
@@ -114,7 +114,7 @@
                                         </div>
                                 </div>
                             </div>
-                            <div class="mt-4 w-full sm:w-1/2 bg-sky-200 shadow-lg p-2 rounded-lg">
+                            <div class="mt-4 w-full sm:w-1/2 bg-gray-200 shadow-lg p-2 rounded-lg">
                                 <div class="text-center items-center">
                                     <span class="text-black">Monday</span>
                                         <div class="flex justify-center gap-3">
@@ -123,7 +123,7 @@
                                         </div>
                                 </div>
                             </div>
-                            <div class="mt-4 w-full sm:w-1/2 bg-sky-200 shadow-lg p-2 rounded-lg">
+                            <div class="mt-4 w-full sm:w-1/2 bg-gray-200 shadow-lg p-2 rounded-lg">
                                 <div class="text-center items-center">
                                     <span class="text-black">Tuesday</span>
                                         <div class="flex justify-center gap-3">
@@ -134,7 +134,7 @@
                             </div>
                         </div>
                         <div class="flex flex-col sm:flex-row gap-4">
-                            <div class="mt-4 w-full sm:w-1/2 bg-sky-200 shadow-lg p-2 rounded-lg">
+                            <div class="mt-4 w-full sm:w-1/2 bg-gray-200 shadow-lg p-2 rounded-lg">
                                 <div class="text-center items-center">
                                     <span class="text-black">Wednesday</span>
                                         <div class="flex justify-center gap-3">
@@ -143,7 +143,7 @@
                                         </div>
                                 </div>
                             </div>
-                            <div class="mt-4 w-full sm:w-1/2 bg-sky-200 shadow-lg p-2 rounded-lg">
+                            <div class="mt-4 w-full sm:w-1/2 bg-gray-200 shadow-lg p-2 rounded-lg">
                                 <div class="text-center items-center">
                                     <span class="text-black">Thursday</span>
                                         <div class="flex justify-center gap-3">
@@ -152,7 +152,7 @@
                                         </div>
                                 </div>
                             </div>
-                            <div class="mt-4 w-full sm:w-1/2 bg-sky-200 shadow-lg p-2 rounded-lg">
+                            <div class="mt-4 w-full sm:w-1/2 bg-gray-200 shadow-lg p-2 rounded-lg">
                                 <div class="text-center items-center">
                                     <span class="text-black">Friday</span>
                                         <div class="flex justify-center gap-3">
@@ -161,7 +161,7 @@
                                         </div>
                                 </div>
                             </div>
-                            <div class="mt-4 w-full sm:w-1/2 bg-sky-200 shadow-lg p-2 rounded-lg">
+                            <div class="mt-4 w-full sm:w-1/2 bg-gray-200 shadow-lg p-2 rounded-lg">
                                 <div class="text-center items-center">
                                     <span class="text-black">Saturday</span>
                                         <div class="flex justify-center gap-3">

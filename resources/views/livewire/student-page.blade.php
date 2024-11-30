@@ -1,9 +1,9 @@
 <div class="sm:m-8 lg:m-3 rounded grid grid-cols-1 sm:grid-cols-2 flex justify-center text-black gap-2">
     @if(!$profile)
-        <div class="mx-auto w-full flex items-center justify-between">
-            <h1>Set your Profile first</h1>
+        <div class="col-span-2 mx-auto w-full flex items-center justify-between grid grid-cols-6">
+            <h1 class="col-span-5 text-white">Set your Profile first</h1>
             <a href="{{ route('profiling') }}">
-                <x-button class="bg-sky-500 shadow-lg">Edit Profile</x-button>
+                <x-button class="col-span-1 bg-sky-500 shadow-lg">Setup Profile</x-button>
             </a>
         </div>
     @else

@@ -9,7 +9,7 @@
             {{ session('message') }}
         </div>
     @endif
-    <div class="w-3/4 mx-auto bg-sky-300 rounded-lg p-3 shadow-lg text-black">
+    <div class="w-3/4 mx-auto bg-gray-300 rounded-lg p-3 shadow-lg text-black">
     <form wire:submit.prevent="updateProgram">  
         <div class="block mt-4">
             <x-label for="name" value="{{ __('Program Name') }}" />

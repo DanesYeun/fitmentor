@@ -9,6 +9,7 @@ class InstructorStudentsProgress extends Component
 {
     public $classes; 
     public $progressValues = []; 
+    public $remarks = [];
 
     public function mount()
     {
@@ -18,6 +19,7 @@ class InstructorStudentsProgress extends Component
 
         foreach ($this->classes as $class) {
             $this->progressValues[$class->id] = $class->progressing;
+            $this->remarks[$class->id] = $class->remarks;
         }
     }
 
@@ -27,6 +29,16 @@ class InstructorStudentsProgress extends Component
 
         if ($class && isset($this->progressValues[$classId])) {
             $class->progressing = $this->progressValues[$classId];
+            $class->save();
+        }
+    }
+
+    public function updateRemarks($classId)
+    {
+        $class = Schedule::find($classId);
+
+        if ($class && isset($this->remarks[$classId])) {
+            $class->remarks = $this->remarks[$classId];
             $class->save();
         }
     }

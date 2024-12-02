@@ -109,11 +109,11 @@
                                         {{ __('Dashboard') }}
                                     </x-responsive-nav-link>
                                 </li>
-                                {{-- <li class="py-2">
+                                <li class="py-2">
                                     <x-responsive-nav-link href="{{ route ('instructor-profiling')}}" :active="request()->routeIs('profiling')" wire:navigate>
                                         {{ __('Profile') }}
                                     </x-responsive-nav-link>
-                                </li> --}}
+                                </li>
                                 <li x-data="{ open: false }" class="py-2">
                                     <button @click="open = !open" class="flex items-center justify-between w-full">
                                         <span class="text-black ml-3">{{ __('Classes') }}</span>

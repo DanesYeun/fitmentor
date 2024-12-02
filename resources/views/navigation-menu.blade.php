@@ -1,15 +1,15 @@
-<nav x-data="{ open: false }" class="bg-sky-400 border-b border-gray-100 shadow-md">
+<nav x-data="{ open: false }" class="bg-gray-800 border-b border-gray-100 shadow-md">
     <!-- Primary Navigation Menu -->
     <div class="ml-5 mr-5">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center text-black">
-                    <i class="fas fa-bars text-2xl mr-4 cursor-pointer hidden sm:block" onclick="toggleMenu()"></i>
+                    <i class=" text-white fas fa-bars text-2xl mr-4 cursor-pointer hidden sm:block" onclick="toggleMenu()"></i>
                     <div class="shrink-0 flex items-center">
                         <img src="{{ asset ('bg1.png') }}" class="block h-12 w-auto" alt="">
                     </div>
-                    <span class="text-xl font-semibold">Fit Mentor</span>
+                    <span class="text-xl text-white font-semibold">Fit Mentor</span>
 
                 </div>
 
@@ -24,7 +24,7 @@
                         }
                     </script>
 
-                    <div id="mobile-menu" class="fixed top-16 left-0 w-64 h-full bg-sky-300 shadow-md transform -translate-x-full transition-transform duration-300 z-50">
+                    <div id="mobile-menu" class="fixed top-16 left-0 w-64 h-full bg-gray-700 shadow-md transform -translate-x-full transition-transform duration-300 z-50">
                         <ul class="p-4 ml-10">
                             @if (auth()->user()->role == 'admin')
                                 <li class="py-2">
@@ -35,11 +35,11 @@
 
                                 <li x-data="{ open: false }" class="py-2">
                                     <button @click="open = !open" class="flex items-center justify-between w-full">
-                                        <span class="text-black ml-3">{{ __('Users') }}</span>
+                                        <span class="text-white ml-3">{{ __('Users') }}</span>
                                         <svg x-show="!open" class="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                         </svg>
-                                        <svg x-show="open" class="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <svg x-show="open" class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 15l-7-7-7 7"></path>
                                         </svg>
                                     </button>
@@ -193,7 +193,7 @@
                 <div class="hidden sm:flex sm:items-center sm:ms-6" x-data="{ openTeamDropdown: false, openSettingsDropdown: false }">
     <!-- Settings Dropdown -->
     <div class="ms-3 relative">
-        <button @click="openSettingsDropdown = !openSettingsDropdown" type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-sky-300 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+        <button @click="openSettingsDropdown = !openSettingsDropdown" type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-gray-900 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
             <img class="h-8 w-8 rounded-full object-cover" src="{{ asset(Auth::user()->profile_photo_url) }}"
      alt="{{ Auth::user()->name }}" />

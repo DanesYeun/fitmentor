@@ -7,7 +7,7 @@
                     {{ session('message') }}
                 </div>
             @endif
-    <form wire:submit.prevent="create" enctype="multipart/form-data" class="w-1/3 mx-auto mt-10 bg-sky-200 rounded-lg shadow-lg p-5">
+    <form wire:submit.prevent="create" enctype="multipart/form-data" class="w-1/3 mx-auto mt-10 bg-gray-200 rounded-lg shadow-lg p-5">
     @csrf
                     
         <div class="block">

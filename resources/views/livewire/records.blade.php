@@ -7,7 +7,7 @@
 
     @if($showDeleteModal)
         <x-modal>
-            <div class="p-6 bg-blue-200 text-black">
+            <div class="p-6 bg-gray-200 text-black">
                 <h2 class="text-lg font-semibold mb-4">Are you sure you want to delete this enrollment?</h2>
                 <p class="mb-6">This action cannot be undone.</p>
 
@@ -22,7 +22,7 @@
        
         <div>
             <span class="text-black">Show</span>
-            <select wire:model.live="page" class="text-black bg-blue-300 w-16 h-10">
+            <select wire:model.live="page" class="text-black bg-gray-300 w-16 h-10">
                 <option value="5">5</option>
                 <option value="10">10</option>
                 <option value="20">20</option>
@@ -35,15 +35,15 @@
 
     <div class="w-full flex justify-end">
         <div class="w-1/3 mr-5">   
-            <x-input type="search" autofocus wire:model.live.debounce.1000ms="search" class="w-full md:w-3/4 lg:w-2/3 text-black mt-10 mb-3 focus:border-sky-400 bg-sky-300" placeholder="Search here ..."/>
+            <x-input type="search" autofocus wire:model.live.debounce.1000ms="search" class="w-full md:w-3/4 lg:w-2/3 text-black mt-10 mb-3 focus:border-gray-400 bg-gray-300" placeholder="Search here ..."/>
         </div>
     </div>
 
     <div class="overflow-x-auto">
-    <div class="w-3/4 mx-auto rounded-lg bg-sky-300 p-2 mb-10">
+    <div class="w-3/4 mx-auto rounded-lg bg-gray-300 p-2 mb-10">
     <table class="w-full mx-auto rounded-lg">
             <thead>
-                <tr class="bg-sky-200 text-black rounded-lg">
+                <tr class="bg-gray-200 text-black rounded-lg">
                     <th class="py-2 w-64">Name</th>
                     <th class="py-2 w-64">Enrolled Program</th>
                     <th class="py-2 w-64">Instructor</th>
@@ -55,13 +55,13 @@
             <tbody>
                 @foreach ($schedules as $schedule)
                     @if($schedule->student_id)
-                        <tr class="bg-sky-100 text-black rounded-lg">
+                        <tr class="bg-gray-100 text-black rounded-lg">
                             <th class="py-2">{{ $schedule->student->name }}</th>
                             <th class="py-2">{{ $schedule->program }}</th>
                             <th class="py-2">{{ $schedule->user->name }}</th>
                             <th class="py-2">{{ $schedule->status }}</th>
                             <th class="py-2">
-                                <x-button class="bg-sky-500 shadow-lg" wire:click="viewUser({{ $schedule->id }})">View</x-button>
+                                <x-button class="bg-gray-500 shadow-lg" wire:click="viewUser({{ $schedule->id }})">View</x-button>
                                 <x-button :disabled="$schedule->status == 'Approved'" class="bg-red-500 shadow-lg" wire:click="confirmDelete({{ $schedule->id }})">Delete</x-button>
 
                             </th>
@@ -72,7 +72,7 @@
         </table>
         @if($showModal)
                 <x-modal>  
-                    <div class="allsched-item w-full max-w-4xl p-4 border rounded-lg shadow bg-sky-400 text-black">
+                    <div class="allsched-item w-full max-w-4xl p-4 border rounded-lg shadow bg-gray-100 text-black">
                         <div class="grid grid-cols-2">
                             <div>
                                 <p class="text-lg font-bold">Program: {{ $selectedSchedule->program }}</p>

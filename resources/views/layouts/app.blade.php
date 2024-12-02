@@ -28,7 +28,7 @@
     </head>
     <body class="font-sans antialiased">
         
-        <div class="min-h-screen bg-white">
+        <div class="min-h-screen bg-gray-50">
             @livewire('navigation-menu')
 
             <!-- Page Content -->

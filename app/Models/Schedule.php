@@ -34,6 +34,7 @@ class Schedule extends Model
         'student_id',
         'progress',
         'progressing',
+        'remarks',
         'm',
         't',
         'w',

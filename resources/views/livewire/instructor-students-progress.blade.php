@@ -35,6 +35,21 @@
                             wire:change="updateProgress({{ $class->id }})"
                         />
                     </div>
+
+                    <!-- Remarks Text Area -->
+                    <div class="mt-4">
+                        <label for="remarks-{{ $class->id }}" class="block text-xs font-semibold uppercase mb-2">
+                            Remarks
+                        </label>
+                        <textarea 
+                            id="remarks-{{ $class->id }}" 
+                            rows="3" 
+                            wire:model="remarks.{{ $class->id }}" 
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-teal-500"
+                            placeholder="Add your remarks here..."
+                            wire:change="updateRemarks({{ $class->id }})"
+                        ></textarea>
+                    </div>
                 </div>
             </div>
         </div>

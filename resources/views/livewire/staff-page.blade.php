@@ -1,4 +1,4 @@
-<div class="bg-blue-950 py-8">
+<div class="bg-gray-200 py-8">
     <div class="sm:m-8 lg:m-3 rounded grid grid-cols-1 sm:grid-cols-2 gap-4 flex justify-center">
         <div class="flex justify-center">
             <div class="w-80 h-48 rounded overflow-hidden shadow-lg bg-gray-50"> 

@@ -1,19 +1,18 @@
 <div class="sm:m-8 lg:m-3 rounded grid grid-cols-1 sm:grid-cols-2 flex justify-center text-black gap-2">
     @if(!$profile)
         <div class="col-span-2 mx-auto w-full flex items-center justify-between grid grid-cols-6">
-            <h1 class="col-span-5 text-white">Set your Profile first</h1>
+            <h1 class="col-span-5 text-black">Set your Profile first</h1>
             <a href="{{ route('profiling') }}">
-                <x-button class="col-span-1 bg-sky-500 shadow-lg">Setup Profile</x-button>
+                <x-button class="col-span-1 bg-blue-100 shadow-lg">Setup Profile</x-button>
             </a>
         </div>
     @else
         {{-- Recommended Classes Section --}}
         @if (!$recommends->isEmpty())
-            <h1 class="font-xl text-xl font-bold uppercase sm:col-span-2">Matched Classes</h1>
-            <span class="font-sm text-sm text-red-700 sm:col-span-2">Matched program/s based on your data.</span>
+            <h1 class="font-xl text-xl font-bold uppercase sm:col-span-2">Matched Programs</h1>
             @foreach($recommends->where('goal', $profile->goal) as $recommend)           
                 <div class="flex justify-center mt-2 mb-5">
-                    <div class="w-full rounded overflow-hidden shadow-lg bg-sky-200 p-3">
+                    <div class="w-full rounded overflow-hidden shadow-lg bg-gray-100 p-3">
                     <div class="flex justify-center">
                         <span class="font-xl text-xl font-bold uppercase"><strong>{{$recommend->program}}</strong></span>
                     </div>
@@ -30,8 +29,8 @@
                             </strong></p>
                         </div>
                         <div class="flex gap-2 justify-end py-10 px-2">
-                            <x-button class="bg-sky-500 shadow-lg h-10" wire:click="viewRecommend ({{$recommend->id}})">View</x-button>
-                            <x-button class="bg-sky-500 shadow-lg h-10" wire:click="enrollConfirm({{ $recommend->id }})">Enroll</x-button>
+                            <x-button class="bg-blue-500 shadow-lg h-10" wire:click="viewRecommend ({{$recommend->id}})">View</x-button>
+                            <x-button class="bg-blue-500 shadow-lg h-10" wire:click="enrollConfirm({{ $recommend->id }})">Enroll</x-button>
                         </div>  
                     </div>                
                     </div>
@@ -41,11 +40,11 @@
 
         {{-- Suggested Classes Section --}}
         @if (!$suggestions->isEmpty())
-            <h1 class="font-xl text-xl font-bold uppercase sm:col-span-2 mt-10">Recommended Classes</h1>
-            <span class="font-sm text-sm text-red-700 sm:col-span-2">Classes shown below are based on your preferences and activity.</span>
+            <h1 class="font-xl text-xl font-bold uppercase sm:col-span-2 mt-10">Recommended Workouts
+            </h1>
             @foreach($suggestions as $suggestion)
                 <div class="flex justify-center mt-2 mb-5">
-                    <div class="w-full rounded overflow-hidden shadow-lg bg-sky-200 p-3">
+                    <div class="w-full rounded overflow-hidden shadow-lg bg-gray-100 p-3">
                     <div class="flex justify-center">
                         <span class="font-xl text-xl font-bold uppercase"><strong>{{$suggestion->program}}</strong></span>
                     </div>
@@ -62,8 +61,8 @@
                             </strong></p>
                         </div>
                         <div class="flex gap-2 justify-end py-10 px-2">
-                            <x-button class="bg-sky-500 shadow-lg h-10" wire:click="viewRecommend ({{$suggestion->id}})">View</x-button>
-                            <x-button class="bg-sky-500 shadow-lg h-10" wire:click="enrollConfirm({{ $suggestion->id }})">Enroll</x-button>
+                            <x-button class="bg-red-900 hover:bg-red-950 shadow-lg h-10" wire:click="viewRecommend ({{$suggestion->id}})">View</x-button>
+                            <x-button class="bg-red-900 hover:bg-red-950 shadow-lg h-10" wire:click="enrollConfirm({{ $suggestion->id }})">Enroll</x-button>
                         </div>  
                     </div>                
                     </div>
@@ -75,7 +74,7 @@
     {{-- Modal for Recommended or Suggested --}}
     @if($showModal)
         <x-modal>
-            <div class="allsched-item w-full max-w-4xl p-4 border rounded-lg shadow bg-sky-400 text-black">
+            <div class="allsched-item w-full max-w-4xl p-4 border rounded-lg shadow bg-blue-400 text-black">
                 <div class="grid grid-cols-2">
                     <div>
                         <p class="text-lg font-bold">Program: {{ $selectedRecommend->program }}</p>

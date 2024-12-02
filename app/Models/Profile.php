@@ -22,6 +22,7 @@ class Profile extends Model
         'area',
         'name'
     ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

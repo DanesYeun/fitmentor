@@ -1,8 +1,8 @@
 <x-app-layout>
-    <div class="py-12 bg-gra-200">
+    <div class="py-12 bg-white">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
        
-            <div class="overflow-hidden bg-blue-950 p-5 shadow-xl sm:rounded-lg">
+            <div class="overflow-hidden bg-gray-200 p-5 shadow-xl sm:rounded-lg">
             @if(Auth::user()->role == "admin")
                 @livewire('admin-page')
             @elseif(Auth::user()->role == "student")

@@ -12,7 +12,13 @@ class StudentProgress extends Component
     {
         $profile = Profile::where('user_id', auth()->user()->id)->first();
 
-        $classes = Schedule::all()->where('student_id', $profile->user_id);
+        if(!is_null($profile))
+        {
+            $classes = Schedule::all()->where('student_id', $profile->user_id);
+        } else{
+            $classes = null;
+        }
+        
 
         // dd($classes);
         return view('livewire.student-progress', compact('classes'));

@@ -57,29 +57,39 @@
             <div class="flex flex-col sm:flex-row gap-4">
                 <div class="mt-4 w-full sm:w-1/3">
                     <label for="goal" class="block text-sm font-medium text-black">Goal</label>
-                        <select wire:model="goal" class="mt-1 w-full text-black rounded-lg bg-white-500 hover:border-black border-slate-300 inline-flex items-center justify-between" required>
-                            <option class="inline-flex items-center justify-between" value="" selected>Select a Goal</option>
-                            <option value="Improve Fitness/Overall Health">Improve Fitness/Overall Health</option>
-                            <option value="Lose Weight">Lose Weight</option>
-                            <option value="Increase Strength">Increase Strength</option>
-                            <option value="Improve Endurance">Improve Endurance</option>
-                            <option value="Build Muscle Mass">Build Muscle Mass</option>
-                            <option value="Boost Cardiovascular Fitness">Boost Cardiovascular Fitness</option>
-                            <option value="Enhance Flexibility">Enhance Flexibility</option>   
-                        </select>   
-                        <div>
-
-</div>
-
-                </div>
-                <div class="mt-4 w-full sm:w-1/3">  
-                    <label for="area" class="block text-sm font-medium text-black">Focus Area</label>
-                    <select wire:model="area" class="mt-1 w-full text-black rounded-lg bg-white-500 hover:border-black border-slate-300 inline-flex items-center justify-between" required>
-                        <option class="inline-flex items-center justify-between" value="" selected>Select a Goal</option>
-                        @foreach ($focus_areas as $focus_area)
-                            <option value="{{ $focus_area->name }}">{{ $focus_area->name }}</option>
+                    <div class="space-y-2">
+                        @foreach (['Improve Fitness/Overall Health', 'Lose Weight', 'Increase Strength', 'Improve Endurance', 'Build Muscle Mass', 'Boost Cardiovascular Fitness', 'Enhance Flexibility'] as $goalOption)
+                            <div class="flex items-center">
+                                <input 
+                                    type="checkbox" 
+                                    id="goal_{{ $loop->index }}" 
+                                    wire:model="goal" 
+                                    value="{{ $goalOption }}" 
+                                    class="mr-2"
+                                    @checked(in_array($goalOption, $goal))
+                                />
+                                <label for="goal_{{ $loop->index }}" class="text-sm">{{ $goalOption }}</label>
+                            </div>
                         @endforeach
-                    </select> 
+                    </div>
+                </div> 
+                <div class="mt-4 w-full sm:w-1/3">
+                    <label for="area" class="block text-sm font-medium text-black">Focus Area</label>
+                    <div class="space-y-2">
+                        @foreach ($focus_areas as $focus_area)
+                            <div class="flex items-center">
+                                <input 
+                                    type="checkbox" 
+                                    id="area_{{ $loop->index }}" 
+                                    wire:model="area" 
+                                    value="{{ $focus_area->name }}" 
+                                    class="mr-2"
+                                    @checked(in_array($focus_area->name, $area))
+                                />
+                                <label for="area_{{ $loop->index }}" class="text-sm">{{ $focus_area->name }}</label>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
                 <div class="mt-4 w-full sm:w-1/3">
                     <label for="level" class="block text-sm font-medium text-black">Level</label>

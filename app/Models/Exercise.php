@@ -25,4 +25,8 @@ class Exercise extends Model
     {
         return $this->hasMany(Programschedule::class, 'exercise_id');
     }
+    public function focusArea()
+    {
+        return $this->belongsTo(FocusArea::class, 'focus_area');
+    }
 }

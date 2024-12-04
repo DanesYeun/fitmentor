@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\FocusArea;
 use Livewire\Component;
 use App\Models\Schedule;
 use App\Models\Programschedule;
@@ -33,36 +34,65 @@ class StudentPage extends Component
         $user = Auth::user();
         $profile = Profile::where('user_id', $user->id)->first();
         $suggestions = null;
+        $suggestedInstructors = null; // New variable for suggested instructors
+        
+        if (!is_null($profile->goal)) {
+            $profile_goals = explode(",", $profile->goal);
+        } else {
+            $profile_goals = null;
+        }
+        
+        if (!is_null($profile->area)) {
+            $profile_areas = explode(",", $profile->area);
+        } else {
+            $profile_areas = null;
+        }
+    
+        $profile_level = $profile->level ?? null;
+        $focus_area_ids = FocusArea::whereIn('name', $profile_areas)->pluck('id');
+        $suggestedCoaches = [];
         if (!$profile) {
             $recommends = Schedule::where('status', 'Available')->paginate(6);
         } else {
             $recommends = Schedule::where('status', 'Available')
-                ->where(function ($query) use ($profile) {
-                    $query->where('goal', $profile->goal)
-                          ->orWhere('level', $profile->level);
+                ->where(function ($query) use ($profile_goals, $profile_level) {
+                    $query->whereIn('goal', $profile_goals)
+                        ->where('level', $profile_level);
                 })
                 ->orWhere('user_id', function ($query) use ($profile) {
                     $query->select('id')
-                          ->from('users')
-                          ->where('expertise', $profile->area);
+                        ->from('users')
+                        ->where('expertise', $profile->area);
                 })
                 ->paginate(6);
-
-            $suggestions = $recommends->filter(function ($recommend) use ($profile) {
-                // Check if any of the focus areas match the profile's focus area criteria
-                foreach ($recommend->program_schedule as $program_schedule) {
-                    if ($program_schedule->focus_area->name == $profile->area) {
-                        return true;
-                    }
-                }
-                return false;
+            
+            // Exercise Recommendations
+            $suggestions = Exercise::whereIn('focus_area', $focus_area_ids)
+            ->get()
+            ->map(function ($exercise) use ($profile) {
+                $exerciseDetails = $this->calculateExerciseParameters($exercise, $profile);
+                
+                return [
+                    'exercise' => $exercise,
+                    'reps' => $exerciseDetails['reps'],
+                    'sets' => $exerciseDetails['sets'],
+                    'intensity' => $exerciseDetails['intensity'],
+                    'focus_area_name' => $exercise->focusArea->name
+                ];
             });
+    
+            // Suggested Instructors based on profile
+            $suggestedInstructors = User::where('role', 'instructor')
+                ->get();
+            foreach ($suggestedInstructors as $instructor) {
+                if ($instructor->specialization && in_array($instructor->specialization->goal, $profile_goals)) {
+                    $suggestedCoaches[] = $instructor;
+                }
+            }
         }
-        // Nag baliktad ang suggestions ug recommendations HAHAH
         
         $exercises = Programschedule::get();
-        return view('livewire.student-page', compact('recommends','exercises','profile', 'suggestions'));
-
+        return view('livewire.student-page', compact('recommends', 'exercises', 'profile', 'suggestions', 'suggestedCoaches'));
     }
     public function viewRecommend($recommendId)
     {
@@ -95,6 +125,55 @@ class StudentPage extends Component
     public function refreshPage()
     {
     return redirect()->to(request()->header('Referer'));
+    }
+    // calculate exercise
+    private function calculateExerciseParameters($exercise, $profile)
+    {
+        // Goal-based parameter calculation
+        $baseReps = 10; 
+        $baseSets = 3; 
+
+        // Parse goals if it's a string
+        $goals = is_string($profile->goal) ? explode(',', $profile->goal) : $profile->goal;
+        
+        $primaryGoal = is_array($goals) ? $goals[0] : $goals;
+
+        switch ($primaryGoal) {
+            case 'Weight Loss':
+                return [
+                    'reps' => $baseReps + 2,
+                    'sets' => $baseSets + 1,
+                    'intensity' => 'High'
+                ];
+            
+            case 'Muscle Gain':
+                return [
+                    'reps' => $baseReps - 2,
+                    'sets' => $baseSets + 2,
+                    'intensity' => 'Moderate to High'
+                ];
+            
+            case 'Endurance':
+                return [
+                    'reps' => $baseReps + 5,
+                    'sets' => $baseSets,
+                    'intensity' => 'Moderate'
+                ];
+            
+            case 'Flexibility':
+                return [
+                    'reps' => $baseReps,
+                    'sets' => $baseSets - 1,
+                    'intensity' => 'Low'
+                ];
+            
+            default:
+                return [
+                    'reps' => $baseReps,
+                    'sets' => $baseSets,
+                    'intensity' => 'Moderate'
+                ];
+        }
     }
     
 }

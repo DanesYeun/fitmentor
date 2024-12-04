@@ -104,11 +104,14 @@ class ProgramPage extends Component
 
 
                 // Attach selected programs to the schedule
-            foreach ($this->selectedItems as $selectedItems) {
+                foreach ($this->selectedItems as $selectedItems) {
+
+                    $focus_area = Exercise::where('id', $selectedItems)->pluck('focus_area');
+
                     Programschedule::create([
                         'exercise_id' => $selectedItems,
                         'schedule_id' => $schedule->id,
-                        'focus_area_id' => $this->focus,
+                        'focus_area_id' => $focus_area[0],
                     ]);
             }
 

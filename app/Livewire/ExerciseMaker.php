@@ -4,10 +4,11 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Exercise;
+use App\Models\FocusArea;
 
 class ExerciseMaker extends Component
 {
-    public $name, $preparation, $execution;
+    public $name, $preparation, $execution, $focus_area;
     
     public function create()
     {
@@ -23,6 +24,7 @@ class ExerciseMaker extends Component
                 'name' => ucwords($this->name),
                 'preparation' => $this->preparation,
                 'execution' => $this->execution,
+                'focus_area' => $this->focus_area
             ]);
             
             session()->flash('message', 'Exercise created successfully!');  
@@ -31,6 +33,9 @@ class ExerciseMaker extends Component
 
     public function render()
     {
-        return view('livewire.exercise-maker');
+        $focusAreas = FocusArea::all();
+        // dd(json_decode($focusAreas));
+
+        return view('livewire.exercise-maker', compact('focusAreas'));
     }
 }

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
 use Livewire\Component;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Schedule;
 
 class StaffProfiling extends Component
 {
@@ -15,6 +16,8 @@ class StaffProfiling extends Component
     public $image;
     public $name;
     public $email;
+    public $expertise;
+    public $programs =  [];
 
     protected $rules = [
         'image' => 'nullable|image|max:1024', // Optional image, max 1MB
@@ -25,10 +28,12 @@ class StaffProfiling extends Component
     public function mount()
     {
         $user = Auth::user();
+        $this->programs = Schedule::where('user_id', $user->id)->get();        
 
         $this->userId = $user->id;
         $this->name = $user->name;
         $this->email = $user->email;
+        $this->expertise = $user->expertise;
 
         $this->image = $user->profile_photo_path;
     }
@@ -52,6 +57,7 @@ class StaffProfiling extends Component
             'name' => $this->name,
             'email' => $this->email,
             'profile_photo_path' => $imagePath,
+            'expertise' => $this->expertise
         ]);
 
         // Flash success message

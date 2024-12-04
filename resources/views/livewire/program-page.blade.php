@@ -83,14 +83,14 @@
                             </div>
                             {{-- focus area --}}
                             
-                            <div class="mt-4 w-full sm:w-1/3">
+                            {{-- <div class="mt-4 w-full sm:w-1/3">
                                 <select wire:model="focus" class="mt-1.5 w-full text-black rounded-lg bg-gray-200 hover:border-black border-slate-300" required>
                                     <option value="" selected>Select Focus Area</option>
                                     @foreach($focusAreas as $focusArea)
                                         <option value="{{ $focusArea->id }}">{{ $focusArea->name }}</option>
                                     @endforeach
                                 </select>   
-                            </div>
+                            </div> --}}
 
                             {{-- end of focus area --}}
                             <div class="mt-4 w-full sm:w-1/3">

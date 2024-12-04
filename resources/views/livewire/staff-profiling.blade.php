@@ -29,6 +29,32 @@
                 <label for="email" class="block text-sm font-medium text-black">Email</label>
                 <x-input wire:model="email" class="block mt-1 w-full text-black" type="email" required/>
             </div>
+            <div>
+                <label for="expertise" class="block text-sm font-medium text-black">Expertise</label>
+                <x-input wire:model="expertise" class="block mt-1 w-full text-black" type="text" required autofocus/>
+            </div>
+        </div>
+
+        <div class="mt-6">
+            <h2 class="text-lg font-semibold text-black">Programs</h2>
+            <table class="min-w-full border-collapse border border-gray-200 mt-4">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="border border-gray-300 px-4 py-2 text-center text-sm font-medium text-black">Program</th>
+                        <th class="border border-gray-300 px-4 py-2 text-center text-sm font-medium text-black">Goal</th>
+                        <th class="border border-gray-300 px-4 py-2 text-center text-sm font-medium text-black">Level</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($programs as $program)
+                        <tr class="bg-white">
+                            <td class="border border-gray-300 px-4 py-2 text-sm text-black">{{ $program->program }}</td>
+                            <td class="border border-gray-300 px-4 py-2 text-sm text-black">{{ $program->goal }}</td>
+                            <td class="border border-gray-300 px-4 py-2 text-sm text-black">{{ $program->level }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
 
         <!-- Submit Button -->

@@ -15,7 +15,7 @@
                 <p class="text-lg">Goal: {{$goal}}</p>
                 <p class="text-lg">Focus Area: {{ $focus }}</p>
                 <p class="text-lg">Instructor: {{$instructor}}</p>
-                <p class="text-lg">Student: {{$student ?? ''}}</p>
+                <p class="text-lg">Student: {{$student ?? 'No Student Enrolled'}}</p>
             </div>
         </div>
 

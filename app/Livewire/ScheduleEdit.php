@@ -30,7 +30,7 @@ class ScheduleEdit extends Component
         $this->goal = $this->schedule->goal; 
         $this->focus = $this->schedule->focusAreas->isNotEmpty() ? $this->schedule->focusAreas[0]->name : 'No focus area';
         $this->instructor = auth()->user()->name;
-        $this->student = $this->schedule->student->name;
+        $this->student = !is_null($this->schedule->student) ? $this->schedule->student->name : null;
 
         $this->level = $this->schedule->level;
         $this->sunday_start = $this->schedule->sunday_start;

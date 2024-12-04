@@ -10,7 +10,7 @@
         {{-- Recommended Classes Section --}}
         @if (!$recommends->isEmpty())
             <h1 class="font-xl text-xl font-bold uppercase sm:col-span-2">Matched Programs</h1>
-            @foreach($recommends->where('goal', $profile->goal) as $recommend)           
+            @foreach($recommends as $recommend)           
                 <div class="flex justify-center mt-2 mb-5">
                     <div class="w-full rounded overflow-hidden shadow-lg bg-gray-100 p-3">
                     <div class="flex justify-center">
@@ -22,10 +22,10 @@
                             <p><strong>Level: {{$recommend->level}}</strong></p>
                             <p><strong>Instructor: {{$recommend->user->name}}</strong></p>
                             <p><strong>Focus Area/s: <br>
-                            @foreach($recommend->program_schedule as $program_schedule)
-                                {{ $program_schedule->focus_area->name }}
-                                @if (!$loop->last), @endif
-                            @endforeach
+                                @foreach($recommend->program_schedule as $program_schedule)
+                                    {{ $program_schedule->focus_area->name }}
+                                    @if (!$loop->last), @endif
+                                @endforeach
                             </strong></p>
                         </div>
                         <div class="flex gap-2 justify-end py-10 px-2">
@@ -40,31 +40,50 @@
 
         {{-- Suggested Classes Section --}}
         @if (!$suggestions->isEmpty())
-            <h1 class="font-xl text-xl font-bold uppercase sm:col-span-2 mt-10">Recommended Workouts
+            <h1 class="font-xl text-xl font-bold uppercase sm:col-span-2 mt-10">
+                Recommended Exercises
             </h1>
             @foreach($suggestions as $suggestion)
                 <div class="flex justify-center mt-2 mb-5">
                     <div class="w-full rounded overflow-hidden shadow-lg bg-gray-100 p-3">
-                    <div class="flex justify-center">
-                        <span class="font-xl text-xl font-bold uppercase"><strong>{{$suggestion->program}}</strong></span>
-                    </div>
-                    <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="">
-                            <p><strong>Goal: {{$suggestion->goal}}</strong></p>
-                            <p><strong>Level: {{$suggestion->level}}</strong></p>
-                            <p><strong>Instructor: {{$suggestion->user->name}}</strong></p>
-                            <p><strong>Focus Area/s: <br>
-                                @foreach($suggestion->program_schedule as $program_schedule)
-                                    {{ $program_schedule->focus_area->name }}
-                                    @if (!$loop->last), @endif
-                                @endforeach
-                            </strong></p>
+                        <div class="flex justify-center">
+                            <span class="font-xl text-xl font-bold uppercase">
+                                <strong>{{ $suggestion['exercise']->name }}</strong>
+                            </span>
                         </div>
-                        <div class="flex gap-2 justify-end py-10 px-2">
-                            <x-button class="bg-red-900 hover:bg-red-950 shadow-lg h-10" wire:click="viewRecommend ({{$suggestion->id}})">View</x-button>
-                            <x-button class="bg-red-900 hover:bg-red-950 shadow-lg h-10" wire:click="enrollConfirm({{ $suggestion->id }})">Enroll</x-button>
-                        </div>  
-                    </div>                
+                        <div class="mt-2 grid grid-cols-1 gap-4">
+                            <div>
+                                <p><strong>Focus Area: {{ $suggestion['exercise']->focus_area }}</strong></p>
+                                <p><strong>Reps: {{ $suggestion['reps'] }}</strong></p>
+                                <p><strong>Sets: {{ $suggestion['sets'] }}</strong></p>
+                                <p><strong>Intensity: {{ $suggestion['intensity'] }}</strong></p>
+                                <p><strong>Preparation: {{ $suggestion['exercise']->preparation }}</strong></p>
+                                <p><strong>Execution: {{ $suggestion['exercise']->execution }}</strong></p>
+                            </div>
+                        </div>                
+                    </div>
+                </div>
+            @endforeach
+        @endif
+
+        @if (!is_null($suggestedCoaches))
+            <h1 class="font-xl text-xl font-bold uppercase sm:col-span-2 mt-10">
+                Matched Coaches
+            </h1>
+            @foreach($suggestedCoaches as $coach)
+                <div class="flex justify-center mt-2 mb-5">
+                    <div class="w-full rounded overflow-hidden shadow-lg bg-gray-100 p-3">
+                        <div class="flex justify-center">
+                            <span class="font-xl text-xl font-bold uppercase">
+                                <strong>{{ $coach->name }}</strong>
+                            </span>
+                        </div>
+                        <div class="mt-2 grid grid-cols-1 gap-4">
+                            <div>
+                                <p><strong>Expertise: {{ $coach->specialization->name }}</strong></p>
+                                <p><strong>Email: {{ $coach->email }}</strong></p>
+                            </div>
+                        </div>                
                     </div>
                 </div>
             @endforeach

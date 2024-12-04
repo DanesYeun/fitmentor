@@ -25,4 +25,8 @@ class FocusArea extends Model
         return $this->hasMany(Programschedule::class, 'focus_area_id');
     }
 
+    public function exercises()
+    {
+        return $this->hasMany(Exercise::class, 'focus_area');
+    }
 }

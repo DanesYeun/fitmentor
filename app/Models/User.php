@@ -29,7 +29,8 @@ class User extends Authenticatable
         'password',
         'role',
         'expertise',
-        'profile_photo_path'
+        'profile_photo_path',
+        'specialization_id'
     ];
 
     /**
@@ -74,5 +75,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Schedule::class);
     }
-
+    public function specialization()
+    {
+        return $this->belongsTo(Specialization::class, 'specialization_id');
+    }
 }

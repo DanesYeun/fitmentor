@@ -196,7 +196,7 @@
         <button @click="openSettingsDropdown = !openSettingsDropdown" type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-gray-900 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
             <img class="h-8 w-8 rounded-full object-cover"  
-                src="{{ Storage::url('profile-photos/' . basename(Auth::user()->profile_photo_path)) }}"
+                src="{{ is_null(Auth::user()->profile_photo_path) ? asset(Auth::user()->profile_photo_url) : Storage::url('profile-photos/' . basename(Auth::user()->profile_photo_path))  }}"
                 alt="{{ Auth::user()->name }}" />
             @else
                 {{ Auth::user()->firstname }} {{ Auth::user()->middlename }} {{ Auth::user()->lastname }}

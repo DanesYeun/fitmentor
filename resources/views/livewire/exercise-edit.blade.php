@@ -25,7 +25,7 @@
         </div>
 
         <div class="mx-auto w-1/3 mt-10">
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">Update Exercise</button>
+            <button type="submit" class="bg-gray-500 text-white px-4 py-2 rounded-md">Update Exercise</button>
         </div>
     </form>
     </div>

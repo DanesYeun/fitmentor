@@ -5,7 +5,7 @@
         </div>
     @endif
 
-    <form wire:submit.prevent="staffProfiling" enctype="multipart/form-data" class="bg-sky-300 mt-5 mx-auto w-4/6 p-5 shadow-md rounded-lg">
+    <form wire:submit.prevent="staffProfiling" enctype="multipart/form-data" class="bg-gray-200 mt-5 mx-auto w-4/6 p-5 shadow-md rounded-lg">
         @csrf
         <span class="text-black text-lg font-bold block mb-4">User Information</span>
         
@@ -37,7 +37,7 @@
 
         <!-- Submit Button -->
         <div class="mt-6 flex justify-center">
-            <x-button class="bg-blue-900 shadow-lg px-6 py-2">{{ $userId ? 'Update' : 'Submit' }}</x-button>
+            <x-button class="bg-green-900 shadow-lg px-6 py-2">{{ $userId ? 'Update' : 'Submit' }}</x-button>
         </div>
     </form>
 </div>

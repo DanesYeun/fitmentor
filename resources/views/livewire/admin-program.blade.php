@@ -75,9 +75,9 @@
                                         @foreach ($exercises as $exercise)
                                             @if($exercise->schedule_id === $schedule->id)
                                                 <tr>
-                                                    <td class="border border-black p-2 text-center">{{ $exercise->program->name }}</td>
-                                                    <td class="border border-black p-2 text-center">{{ $exercise->program->preparation }}</td>
-                                                    <td class="border border-black p-2 text-center">{{ $exercise->program->execution }}</td>
+                                                    <td class="border border-black p-2 text-center">{{ $exercise->exercise->name }}</td>
+                                                    <td class="border border-black p-2 text-center">{{ $exercise->exercise->preparation }}</td>
+                                                    <td class="border border-black p-2 text-center">{{ $exercise->exercise->execution }}</td>
                                                 </tr>
                                             @endif
                                         @endforeach

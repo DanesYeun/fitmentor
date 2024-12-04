@@ -102,7 +102,7 @@
                 </div>
             </div>
             <div class="mt-10 flex justify-center">
-                <x-button class="bg-blue-900 shadow-lg">{{ $profileId ? 'Update' : 'Submit' }}</x-button>
+                <x-button class="bg-gray-900 shadow-lg">{{ $profileId ? 'Update' : 'Submit' }}</x-button>
             </div>
             </div>
         </form>

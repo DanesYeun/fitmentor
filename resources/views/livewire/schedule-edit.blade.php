@@ -7,7 +7,7 @@
     <div class="text-black mt-5 ml-20">
         <a href="javascript:history.back()"><i class="fa-solid fa-rotate-left">Back</i></a>
     </div>
-    <form wire:submit.prevent="updateSchedule" enctype="multipart/form-data" class="bg-sky-300 mt-5 mx-auto w-4/6 p-5 shadow-md rounded-lg">
+    <form wire:submit.prevent="updateSchedule" enctype="multipart/form-data" class="bg-gray-200 mt-5 mx-auto w-4/6 p-5 shadow-md rounded-lg">
         @csrf
         <div class="grid grid-cols-2">
             <div>
@@ -79,7 +79,7 @@
 
         <!-- Submit Button -->
         <div class="mt-6 flex justify-center">
-            <x-button class="bg-blue-900 shadow-lg px-6 py-2">{{ $schedule->id ? 'Update' : 'Submit' }}</x-button>
+            <x-button class="bg-gray-900 shadow-lg px-6 py-2">{{ $schedule->id ? 'Update' : 'Submit' }}</x-button>
         </div>
     </form>
 </div>

@@ -3,7 +3,7 @@
         <div class="col-span-2 mx-auto w-full flex items-center justify-between grid grid-cols-6">
             <h1 class="col-span-5 text-black">Set your Profile first</h1>
             <a href="{{ route('profiling') }}">
-                <x-button class="col-span-1 bg-blue-100 shadow-lg">Setup Profile</x-button>
+                <x-button class="col-span-1 bg-gray-100 shadow-lg">Setup Profile</x-button>
             </a>
         </div>
     @else
@@ -29,8 +29,8 @@
                             </strong></p>
                         </div>
                         <div class="flex gap-2 justify-end py-10 px-2">
-                            <x-button class="bg-blue-500 shadow-lg h-10" wire:click="viewRecommend ({{$recommend->id}})">View</x-button>
-                            <x-button class="bg-blue-500 shadow-lg h-10" wire:click="enrollConfirm({{ $recommend->id }})">Enroll</x-button>
+                            <x-button class="bg-gray-500 shadow-lg h-10" wire:click="viewRecommend ({{$recommend->id}})">View</x-button>
+                            <x-button class="bg-gray-500 shadow-lg h-10" wire:click="enrollConfirm({{ $recommend->id }})">Enroll</x-button>
                         </div>  
                     </div>                
                     </div>
@@ -93,7 +93,7 @@
     {{-- Modal for Recommended or Suggested --}}
     @if($showModal)
         <x-modal>
-            <div class="allsched-item w-full max-w-4xl p-4 border rounded-lg shadow bg-blue-400 text-black">
+            <div class="allsched-item w-full max-w-4xl p-4 rounded-lg shadow bg-white text-black">
                 <div class="grid grid-cols-2">
                     <div>
                         <p class="text-lg font-bold">Program: {{ $selectedRecommend->program }}</p>
@@ -174,7 +174,7 @@
     {{-- Confirmation Modal for Enrollment --}}
     @if($confirmingEnrollment)
         <x-modal>
-            <div class="p-6 bg-blue-200 text-black">
+            <div class="p-6 bg-gray-200 text-black">
                 <h2 class="text-lg font-semibold mb-4">Confirm Enrollment</h2>
                 <p>Are you sure you want to enroll in this program?</p>
                 <div class="flex justify-end mt-4 space-x-2">

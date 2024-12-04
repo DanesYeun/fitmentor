@@ -24,6 +24,15 @@
                             <x-label for="name" value="{{ __('Execution') }}" />
                             <textarea class="block mt-1 w-full bg-transparent text-black" row="3" placeholder="Execution" wire:model="execution" required></textarea>
                         </div>
+                        <div class="block mt-4">
+                            <x-label for="focus_area" value="{{ __('Focus Area') }}" />
+                            <select class="block mt-1 w-full bg-transparent text-black" wire:model="focus_area" required>
+                                <option value="">{{ __('Select Focus Area') }}</option>
+                                @foreach ($focusAreas as $focusArea)
+                                    <option value="{{ $focusArea->id }}">{{ $focusArea->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
                         <div class="flex flex-wrap justify-center mt-5 ml-8">
                             <div x-data="{ hover: false }" class="flex-1">

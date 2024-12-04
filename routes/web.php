@@ -77,7 +77,7 @@ Route::middleware([
     Route::get('/exercise-maker', ExerciseMaker::class)->name('exercise-maker');
     Route::get('/program-maker', ProgramMaker::class)->name('program-maker');
     Route::get('/recommendations', RecommendPage::class)->name('recommend');
-    Route::get('/staff-profiling', StaffProfiling::class)->name('staff-profiling');
+    // Route::get('/staff-profiling', StaffProfiling::class)->name('staff-profiling');
     Route::get('/schedule/edit/{id}', ScheduleEdit::class)->name('schedule.edit');
     Route::get('/instructor-profiling', StaffProfiling::class)->name('instructor-profiling');
     Route::get('/students-progress', InstructorStudentsProgress::class)->name('instructor-students-progress');

@@ -31,6 +31,10 @@
                                     <div class="bg-sky-500 h-2 rounded-full" style="width: {{ $class->progressing }}%"></div>
                                 </div>
                             </div>
+                            <div>
+                                <span class="font-semibold text-xs uppercase">Instructor's Remarks</span>
+                                <p>{{ $class->remarks }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>

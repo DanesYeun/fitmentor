@@ -35,13 +35,13 @@ return new class extends Migration
             $table->string('status')->nullable();
             $table->integer('progress');
             $table->integer('progressing');
-            $table->string('m')->nullable();
-            $table->string('t')->nullable();
-            $table->string('w')->nullable();
-            $table->string('th')->nullable();
-            $table->string('f')->nullable();
-            $table->string('sat')->nullable();
-            $table->string('sun')->nullable();
+            $table->tinyInteger('monday')->default(0);
+            $table->tinyInteger('tuesday')->default(0);
+            $table->tinyInteger('wednesday')->default(0);
+            $table->tinyInteger('thursday')->default(0);
+            $table->tinyInteger('friday')->default(0);
+            $table->tinyInteger('saturday')->default(0);
+            $table->tinyInteger('sunday')->default(0);
             $table->timestamps();
         
             // Foreign key constraints

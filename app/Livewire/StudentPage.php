@@ -33,7 +33,7 @@ class StudentPage extends Component
     {
         $user = Auth::user();
         $profile = Profile::where('user_id', $user->id)->first();
-        $suggestions = null;
+        
         $suggestedInstructors = null;
         if (!is_null($profile)) {
             $profile_goals = explode(",", $profile->goal);
@@ -48,7 +48,9 @@ class StudentPage extends Component
         $profile_level = $profile->level ?? null;
         $suggestedCoaches = [];
         if (!$profile) {
-            $recommends = Schedule::where('status', 'Available')->paginate(6);
+            $recommends = Schedule::where('status', 'Available')->paginate(2);
+            $suggestions = null;
+            $recommendedClasses = null;
         } else {
             $recommends = Schedule::where('status', 'Available')
                 ->where(function ($query) use ($profile_goals, $profile_level) {
@@ -60,35 +62,48 @@ class StudentPage extends Component
                         ->from('users')
                         ->where('expertise', $profile->area);
                 })
-                ->paginate(6);
+                ->paginate(2);
             
             // Exercise Recommendations
             $suggestions = Exercise::whereIn('focus_area', $focus_area_ids)
-            ->get()
-            ->map(function ($exercise) use ($profile) {
-                $exerciseDetails = $this->calculateExerciseParameters($exercise, $profile);
-                
-                return [
-                    'exercise' => $exercise,
-                    'reps' => $exerciseDetails['reps'],
-                    'sets' => $exerciseDetails['sets'],
-                    'intensity' => $exerciseDetails['intensity'],
-                    'focus_area_name' => $exercise->focusArea->name
-                ];
-            });
+                ->paginate(3, ['*'], 'suggestionPage')
+                ->through(function ($exercise) use ($profile) {
+                    $exerciseDetails = $this->calculateExerciseParameters($exercise, $profile);
+                    
+                    return [
+                        'exercise' => $exercise,
+                        'reps' => $exerciseDetails['reps'],
+                        'sets' => $exerciseDetails['sets'],
+                        'intensity' => $exerciseDetails['intensity'],
+                        'focus_area_name' => $exercise->focusArea->name
+                    ];
+                });
+
+                $recommendedClasses = Schedule::where('status', 'Available')
+                ->where(function ($query) use ($profile_goals, $profile_level) {
+                    $query->whereIn('goal', $profile_goals)
+                        ->where('level', $profile_level);
+                })
+                ->orWhere('user_id', function ($query) use ($profile) {
+                    $query->select('id')
+                        ->from('users')
+                        ->where('expertise', $profile->area);
+                })
+                ->get();
     
             // Suggested Instructors based on profile
             $suggestedInstructors = User::where('role', 'instructor')
                 ->get();
-            foreach ($suggestedInstructors as $instructor) {
-                if ($instructor->specialization && in_array($instructor->specialization->goal, $profile_goals)) {
-                    $suggestedCoaches[] = $instructor;
-                }
-            }
+
+            $suggestedCoaches = User::where('role', 'instructor')
+                ->whereHas('specialization', function ($query) use ($profile_goals) {
+                    $query->whereIn('goal', $profile_goals);
+                })
+                ->paginate(2, ['*'], 'coachPage');
         }
         
         $exercises = Programschedule::get();
-        return view('livewire.student-page', compact('recommends', 'exercises', 'profile', 'suggestions', 'suggestedCoaches'));
+        return view('livewire.student-page', compact('recommends', 'exercises', 'profile', 'suggestions', 'suggestedCoaches', 'recommendedClasses'));
     }
     public function viewRecommend($recommendId)
     {
@@ -120,7 +135,7 @@ class StudentPage extends Component
     
     public function refreshPage()
     {
-    return redirect()->to(request()->header('Referer'));
+        return redirect()->to(request()->header('Referer'));
     }
     // calculate exercise
     private function calculateExerciseParameters($exercise, $profile)

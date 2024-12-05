@@ -1,4 +1,4 @@
-<div class="sm:m-8 lg:m-3 rounded grid grid-cols-1 sm:grid-cols-2 flex justify-center text-black gap-2">
+<div class="sm:m-8 lg:m-3 rounded grid grid-cols-1 sm:grid-cols-3 flex justify-center text-black gap-2">
     @if(!$profile)
         <div class="col-span-2 mx-auto w-full flex items-center justify-between grid grid-cols-6">
             <h1 class="col-span-5 text-black">Set your Profile first</h1>
@@ -8,86 +8,144 @@
         </div>
     @else
         {{-- Recommended Classes Section --}}
-        @if (!$recommends->isEmpty())
-            <h1 class="font-xl text-xl font-bold uppercase sm:col-span-2">Matched Programs</h1>
-            @foreach($recommends as $recommend)           
+        <div class="sm:col-span-2 col-span-3">
+            <h1 class="font-xl text-xl font-bold uppercase">Matched Programs</h1>
+            @if (!$recommends->isEmpty())
+                @foreach($recommends as $recommend)           
+                    <div class="flex justify-center mt-2 mb-5">
+                        <div class="w-full rounded overflow-hidden shadow-lg bg-gray-100 p-3">
+                            <div class="flex justify-center">
+                                <span class="font-xl text-xl font-bold uppercase"><strong>{{$recommend->program}}</strong></span>
+                            </div>
+                            <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="">
+                                    <p><strong>Goal: {{$recommend->goal}}</strong></p>
+                                    <p><strong>Level: {{$recommend->level}}</strong></p>
+                                    <p><strong>Instructor: {{$recommend->user->name}}</strong></p>
+                                    <p><strong>Focus Area/s: <br>
+                                    @php
+                                        $uniqueFocusAreas = $recommend->program_schedule->pluck('focus_area.name')->unique();
+                                    @endphp
+
+                                    @foreach($uniqueFocusAreas as $focusArea)
+                                        {{ $focusArea }}
+                                        @if (!$loop->last), @endif
+                                    @endforeach
+                                    </strong></p>
+                                </div>
+                                <div class="flex gap-2 justify-end py-10 px-2">
+                                    <x-button class="bg-gray-500 shadow-lg h-10" wire:click="viewRecommend ({{$recommend->id}})">View</x-button>
+                                    <x-button class="bg-gray-500 shadow-lg h-10" wire:click="enrollConfirm({{ $recommend->id }})">Enroll</x-button>
+                                </div>  
+                            </div>                
+                        </div>
+                    </div>
+                @endforeach
+
+                {{-- Pagination Links --}}
+                <div class="mt-4">
+                    {{ $recommends->links() }}
+                </div>
+            @else
                 <div class="flex justify-center mt-2 mb-5">
                     <div class="w-full rounded overflow-hidden shadow-lg bg-gray-100 p-3">
-                    <div class="flex justify-center">
-                        <span class="font-xl text-xl font-bold uppercase"><strong>{{$recommend->program}}</strong></span>
-                    </div>
-                    <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="">
-                            <p><strong>Goal: {{$recommend->goal}}</strong></p>
-                            <p><strong>Level: {{$recommend->level}}</strong></p>
-                            <p><strong>Instructor: {{$recommend->user->name}}</strong></p>
-                            <p><strong>Focus Area/s: <br>
-                                @foreach($recommend->program_schedule as $program_schedule)
-                                    {{ $program_schedule->focus_area->name }}
-                                    @if (!$loop->last), @endif
-                                @endforeach
-                            </strong></p>
-                        </div>
-                        <div class="flex gap-2 justify-end py-10 px-2">
-                            <x-button class="bg-gray-500 shadow-lg h-10" wire:click="viewRecommend ({{$recommend->id}})">View</x-button>
-                            <x-button class="bg-gray-500 shadow-lg h-10" wire:click="enrollConfirm({{ $recommend->id }})">Enroll</x-button>
-                        </div>  
-                    </div>                
+                        <div class="flex justify-center">
+                            <span class="font-xl text-xl font-bold uppercase"><strong>No Matched Programs</strong></span>
+                        </div>               
                     </div>
                 </div>
-            @endforeach
-        @endif
+            @endif
+        </div>
+        <!-- matched coaches -->
+        <div class="col-span-1">
+            <h1 class="font-xl text-xl font-bold uppercase sm:col-span-2">
+                Matched Coaches
+            </h1>
+            @if (!is_null($suggestedCoaches))   
+                @foreach($suggestedCoaches as $coach)
+                    <div class="flex justify-center mt-2 mb-5">
+                        <div class="w-full rounded overflow-hidden shadow-lg bg-gray-100 p-3">
+                            <div class="flex justify-center">
+                                <span class="font-xl text-xl font-bold uppercase">
+                                    <strong>{{ $coach->name }}</strong>
+                                </span>
+                            </div>
+                            <div class="mt-2 grid grid-cols-1 gap-4">
+                                <div>
+                                    <p><strong>Expertise: {{ $coach->specialization->name }}</strong></p>
+                                    <p><strong>Email: {{ $coach->email }}</strong></p>
+                                    @foreach ($recommendedClasses->where('user_id', $coach->id) as $class)
+                                    <div class="flex gap-2 justify-between px-2 m-1">
+                                        <span class="font-sm text-sm font-bold uppercase">
+                                            <strong>{{ $class->program }}</strong>
+                                        </span>
+                                        <x-button class="bg-gray-500 shadow-lg h-6" wire:click="enrollConfirm({{ $class->id }})">Enroll</x-button>
+                                    </div>  
+                                    @endforeach
+                                </div>
+                            </div>                
+                        </div>
+                    </div>
+                @endforeach
+                {{-- Pagination Links --}}
+                <div class="mt-4">
+                    {{ $suggestedCoaches->links() }}
+                </div>
+            @else
+                <div class="flex justify-center mt-2 mb-5">
+                    <div class="w-full rounded overflow-hidden shadow-lg bg-gray-100 p-3">
+                        <div class="flex justify-center">
+                            <span class="font-xl text-xl font-bold uppercase"><strong>No Matched Coaches</strong></span>
+                        </div>               
+                    </div>
+                </div>
+            @endif
+        </div>
+        
 
         {{-- Suggested Classes Section --}}
-        @if (!$suggestions->isEmpty())
+        <div class="col-span-3">
             <h1 class="font-xl text-xl font-bold uppercase sm:col-span-2 mt-10">
                 Recommended Exercises
             </h1>
-            @foreach($suggestions as $suggestion)
+            @if (!$suggestions->isEmpty())
+                <div class="grid grid-cols-3 gap-2">
+                    @foreach($suggestions as $suggestion)
+                        <div class="flex col-span-3 sm:col-span-1 justify-center mt-2 mb-5">
+                            <div class="w-full rounded overflow-hidden shadow-lg bg-gray-100 p-3">
+                                <div class="flex justify-center">
+                                    <span class="font-xl text-xl font-bold uppercase">
+                                        <strong>{{ $suggestion['exercise']->name }}</strong>
+                                    </span>
+                                </div>
+                                <div class="mt-2 grid grid-cols-1 gap-4">
+                                    <div>
+                                        <p><strong>Focus Area: {{ $suggestion['exercise']->focusArea->name}}</strong></p>
+                                        <p><strong>Reps: {{ $suggestion['reps'] }}</strong></p>
+                                        <p><strong>Sets: {{ $suggestion['sets'] }}</strong></p>
+                                        <p><strong>Intensity: {{ $suggestion['intensity'] }}</strong></p>
+                                        <p><strong>Preparation: {{ $suggestion['exercise']->preparation }}</strong></p>
+                                        <p><strong>Execution: {{ $suggestion['exercise']->execution }}</strong></p>
+                                    </div>
+                                </div>                
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                {{-- Pagination Links --}}
+                <div class="mt-4">
+                    {{ $suggestions->links() }}
+                </div>
+            @else
                 <div class="flex justify-center mt-2 mb-5">
                     <div class="w-full rounded overflow-hidden shadow-lg bg-gray-100 p-3">
                         <div class="flex justify-center">
-                            <span class="font-xl text-xl font-bold uppercase">
-                                <strong>{{ $suggestion['exercise']->name }}</strong>
-                            </span>
-                        </div>
-                        <div class="mt-2 grid grid-cols-1 gap-4">
-                            <div>
-                                <p><strong>Focus Area: {{ $suggestion['exercise']->focus_area }}</strong></p>
-                                <p><strong>Reps: {{ $suggestion['reps'] }}</strong></p>
-                                <p><strong>Sets: {{ $suggestion['sets'] }}</strong></p>
-                                <p><strong>Intensity: {{ $suggestion['intensity'] }}</strong></p>
-                                <p><strong>Preparation: {{ $suggestion['exercise']->preparation }}</strong></p>
-                                <p><strong>Execution: {{ $suggestion['exercise']->execution }}</strong></p>
-                            </div>
-                        </div>                
+                            <span class="font-xl text-xl font-bold uppercase"><strong>No Exercises Compatible</strong></span>
+                        </div>               
                     </div>
                 </div>
-            @endforeach
-        @endif
-
-        @if (!is_null($suggestedCoaches))
-            <h1 class="font-xl text-xl font-bold uppercase sm:col-span-2 mt-10">
-                Matched Coaches
-            </h1>
-            @foreach($suggestedCoaches as $coach)
-                <div class="flex justify-center mt-2 mb-5">
-                    <div class="w-full rounded overflow-hidden shadow-lg bg-gray-100 p-3">
-                        <div class="flex justify-center">
-                            <span class="font-xl text-xl font-bold uppercase">
-                                <strong>{{ $coach->name }}</strong>
-                            </span>
-                        </div>
-                        <div class="mt-2 grid grid-cols-1 gap-4">
-                            <div>
-                                <p><strong>Expertise: {{ $coach->specialization->name }}</strong></p>
-                                <p><strong>Email: {{ $coach->email }}</strong></p>
-                            </div>
-                        </div>                
-                    </div>
-                </div>
-            @endforeach
-        @endif
+            @endif
+        </div>
     @endif
 
     {{-- Modal for Recommended or Suggested --}}
@@ -157,6 +215,81 @@
                             <td class="p-2 text-center border border-black">
                                 @if($selectedRecommend->monday_end)
                                     {{ \Carbon\Carbon::parse($selectedRecommend->monday_end)->format('g:i A') }}
+                                @endif
+                            </td>
+                        </tr>
+                        @endif
+                        @if($selectedRecommend->tuesday_start || $selectedRecommend->tuesday_end)
+                        <tr>
+                            <td class="p-2 text-center border border-black">Teusday</td>
+                            <td class="p-2 text-center border border-black">
+                                @if($selectedRecommend->tuesday_start)
+                                    {{ \Carbon\Carbon::parse($selectedRecommend->tuesday_start)->format('g:i A') }}
+                                @endif
+                            </td>
+                            <td class="p-2 text-center border border-black">
+                                @if($selectedRecommend->tuesday_end)
+                                    {{ \Carbon\Carbon::parse($selectedRecommend->tuesday_end)->format('g:i A') }}
+                                @endif
+                            </td>
+                        </tr>
+                        @endif
+                        @if($selectedRecommend->wednesday_start || $selectedRecommend->wednesday_end)
+                        <tr>
+                            <td class="p-2 text-center border border-black">Wednesday</td>
+                            <td class="p-2 text-center border border-black">
+                                @if($selectedRecommend->wednesday_start)
+                                    {{ \Carbon\Carbon::parse($selectedRecommend->wednesday_start)->format('g:i A') }}
+                                @endif
+                            </td>
+                            <td class="p-2 text-center border border-black">
+                                @if($selectedRecommend->wednesday_end)
+                                    {{ \Carbon\Carbon::parse($selectedRecommend->wednesday_end)->format('g:i A') }}
+                                @endif
+                            </td>
+                        </tr>
+                        @endif
+                        @if($selectedRecommend->thursday_start || $selectedRecommend->thursday_end)
+                        <tr>
+                            <td class="p-2 text-center border border-black">Thursday</td>
+                            <td class="p-2 text-center border border-black">
+                                @if($selectedRecommend->thursday_start)
+                                    {{ \Carbon\Carbon::parse($selectedRecommend->thursday_start)->format('g:i A') }}
+                                @endif
+                            </td>
+                            <td class="p-2 text-center border border-black">
+                                @if($selectedRecommend->thursday_end)
+                                    {{ \Carbon\Carbon::parse($selectedRecommend->thursday_end)->format('g:i A') }}
+                                @endif
+                            </td>
+                        </tr>
+                        @endif
+                        @if($selectedRecommend->friday_start || $selectedRecommend->friday_end)
+                        <tr>
+                            <td class="p-2 text-center border border-black">Friday</td>
+                            <td class="p-2 text-center border border-black">
+                                @if($selectedRecommend->friday_start)
+                                    {{ \Carbon\Carbon::parse($selectedRecommend->friday_start)->format('g:i A') }}
+                                @endif
+                            </td>
+                            <td class="p-2 text-center border border-black">
+                                @if($selectedRecommend->friday_end)
+                                    {{ \Carbon\Carbon::parse($selectedRecommend->friday_end)->format('g:i A') }}
+                                @endif
+                            </td>
+                        </tr>
+                        @endif
+                        @if($selectedRecommend->saturday_start || $selectedRecommend->saturday_end)
+                        <tr>
+                            <td class="p-2 text-center border border-black">Saturday</td>
+                            <td class="p-2 text-center border border-black">
+                                @if($selectedRecommend->saturday_start)
+                                    {{ \Carbon\Carbon::parse($selectedRecommend->saturday_start)->format('g:i A') }}
+                                @endif
+                            </td>
+                            <td class="p-2 text-center border border-black">
+                                @if($selectedRecommend->saturday_end)
+                                    {{ \Carbon\Carbon::parse($selectedRecommend->saturday_end)->format('g:i A') }}
                                 @endif
                             </td>
                         </tr>

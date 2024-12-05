@@ -17,6 +17,7 @@
                             <h3>Instructor: {{ $class->user->name }}</h3>
                         </div>
                         <div>
+                            <x-button class="bg-teal-400 shadow-lg h-4" wire:click="viewClass ({{$class->id}})">View Class</x-button>
                             <!-- Progress Slider -->
                             <div class="relative pt-1">
                                 <div class="flex mb-2 items-center justify-between">
@@ -84,5 +85,159 @@
                 </div>
             </div>
         </div>
+    @endif
+    @if($showModal)
+        <x-modal>
+            <div class="allsched-item w-full max-w-4xl p-4 rounded-lg shadow bg-white text-black">
+                <div class="grid grid-cols-2">
+                    <div>
+                        <p class="text-lg font-bold">Program: {{ $selectedClass->program }}</p>
+                        <p class="text-lg">Goal: {{$selectedClass->goal}}</p>
+                        <p class="text-lg">Instructor: {{$selectedClass->user->name}}</p>
+                        <p class="text-lg">Student: {{$selectedClass->student->name ?? ''}}</p>
+                        <p class="text-lg">Exercises</p>
+                    </div>
+                    <div class="flex flex-col items-end">
+                        <p class="text-lg">Status: {{$selectedClass->status ?? 'Available'}}</p>
+                    </div>
+                </div>
+                <table class="w-full">
+                    <tr>
+                        <th class="border border-black h-10 w-1/3">Exercise</th>
+                        <th class="border border-black h-10 w-1/3">Preparation</th>
+                        <th class="border border-black h-10 w-1/3">Execution</th>
+                    </tr>
+                    @foreach ($exercises as $exercise)
+                        @if($exercise->schedule_id === $selectedClass->id)
+                            <tr>
+                                <td class="border border-black p-2 text-center">{{ $exercise->exercise->name }}</td>
+                                <td class="border border-black p-2 text-center">{{ $exercise->exercise->preparation }}</td>
+                                <td class="border border-black p-2 text-center">{{ $exercise->exercise->execution }}</td>
+                            </tr>
+                        @endif
+                    @endforeach
+                </table>
+                <table class="w-full border border-black mt-4">
+                    <thead>
+                        <tr>
+                            <th class="p-2 text-center border border-black h-10 w-1/3">Day</th>
+                            <th class="p-2 text-center border border-black h-10 w-1/3">Start</th>
+                            <th class="p-2 text-center border border-black h-10 w-1/3">End</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if($selectedClass->sunday_start || $selectedClass->sunday_end)
+                        <tr>
+                            <td class="p-2 text-center border border-black">Sunday</td>
+                            <td class="p-2 text-center border border-black">
+                                @if($selectedClass->sunday_start)
+                                    {{ \Carbon\Carbon::parse($selectedClass->sunday_start)->format('g:i A') }}
+                                @endif
+                            </td>
+                            <td class="p-2 text-center border border-black">
+                                @if($selectedClass->sunday_end)
+                                    {{ \Carbon\Carbon::parse($selectedClass->sunday_end)->format('g:i A') }}
+                                @endif
+                            </td>
+                        </tr>
+                        @endif
+                        @if($selectedClass->monday_start || $selectedClass->monday_end)
+                        <tr>
+                            <td class="p-2 text-center border border-black">Monday</td>
+                            <td class="p-2 text-center border border-black">
+                                @if($selectedClass->monday_start)
+                                    {{ \Carbon\Carbon::parse($selectedClass->monday_start)->format('g:i A') }}
+                                @endif
+                            </td>
+                            <td class="p-2 text-center border border-black">
+                                @if($selectedClass->monday_end)
+                                    {{ \Carbon\Carbon::parse($selectedClass->monday_end)->format('g:i A') }}
+                                @endif
+                            </td>
+                        </tr>
+                        @endif
+                        @if($selectedClass->tuesday_start || $selectedClass->tuesday_end)
+                        <tr>
+                            <td class="p-2 text-center border border-black">Teusday</td>
+                            <td class="p-2 text-center border border-black">
+                                @if($selectedClass->tuesday_start)
+                                    {{ \Carbon\Carbon::parse($selectedClass->tuesday_start)->format('g:i A') }}
+                                @endif
+                            </td>
+                            <td class="p-2 text-center border border-black">
+                                @if($selectedClass->tuesday_end)
+                                    {{ \Carbon\Carbon::parse($selectedClass->tuesday_end)->format('g:i A') }}
+                                @endif
+                            </td>
+                        </tr>
+                        @endif
+                        @if($selectedClass->wednesday_start || $selectedClass->wednesday_end)
+                        <tr>
+                            <td class="p-2 text-center border border-black">Wednesday</td>
+                            <td class="p-2 text-center border border-black">
+                                @if($selectedClass->wednesday_start)
+                                    {{ \Carbon\Carbon::parse($selectedClass->wednesday_start)->format('g:i A') }}
+                                @endif
+                            </td>
+                            <td class="p-2 text-center border border-black">
+                                @if($selectedClass->wednesday_end)
+                                    {{ \Carbon\Carbon::parse($selectedClass->wednesday_end)->format('g:i A') }}
+                                @endif
+                            </td>
+                        </tr>
+                        @endif
+                        @if($selectedClass->thursday_start || $selectedClass->thursday_end)
+                        <tr>
+                            <td class="p-2 text-center border border-black">Thursday</td>
+                            <td class="p-2 text-center border border-black">
+                                @if($selectedClass->thursday_start)
+                                    {{ \Carbon\Carbon::parse($selectedClass->thursday_start)->format('g:i A') }}
+                                @endif
+                            </td>
+                            <td class="p-2 text-center border border-black">
+                                @if($selectedClass->thursday_end)
+                                    {{ \Carbon\Carbon::parse($selectedClass->thursday_end)->format('g:i A') }}
+                                @endif
+                            </td>
+                        </tr>
+                        @endif
+                        @if($selectedClass->friday_start || $selectedClass->friday_end)
+                        <tr>
+                            <td class="p-2 text-center border border-black">Friday</td>
+                            <td class="p-2 text-center border border-black">
+                                @if($selectedClass->friday_start)
+                                    {{ \Carbon\Carbon::parse($selectedClass->friday_start)->format('g:i A') }}
+                                @endif
+                            </td>
+                            <td class="p-2 text-center border border-black">
+                                @if($selectedClass->friday_end)
+                                    {{ \Carbon\Carbon::parse($selectedClass->friday_end)->format('g:i A') }}
+                                @endif
+                            </td>
+                        </tr>
+                        @endif
+                        @if($selectedClass->saturday_start || $selectedClass->saturday_end)
+                        <tr>
+                            <td class="p-2 text-center border border-black">Saturday</td>
+                            <td class="p-2 text-center border border-black">
+                                @if($selectedClass->saturday_start)
+                                    {{ \Carbon\Carbon::parse($selectedClass->saturday_start)->format('g:i A') }}
+                                @endif
+                            </td>
+                            <td class="p-2 text-center border border-black">
+                                @if($selectedClass->saturday_end)
+                                    {{ \Carbon\Carbon::parse($selectedClass->saturday_end)->format('g:i A') }}
+                                @endif
+                            </td>
+                        </tr>
+                        @endif
+                        <!-- Repeat for other days similarly -->
+                    </tbody>
+                </table>
+                <div class="flex justify-end mt-4">
+                    <x-button wire:click="refreshPage" class="bg-gray-300">Close</x-button>
+                </div>
+            </div>
+        </x-modal>
     @endif
 </div>

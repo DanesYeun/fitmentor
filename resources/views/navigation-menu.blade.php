@@ -170,11 +170,11 @@
                                         {{ __('Available Classes') }}
                                     </x-responsive-nav-link>
                                 </li>
-                                <li class="py-2">
+                                <!-- <li class="py-2">
                                     <x-responsive-nav-link href="{{ route ('student-program')}}" :active="request()->routeIs('student-program')" wire:navigate>
                                         {{ __('View Classes') }}
                                     </x-responsive-nav-link>
-                                </li>
+                                </li> -->
                                 <li class="py-2">
                                     <x-responsive-nav-link href="{{ route('student-progress') }}" :active="request()->routeIs('student-progress')" wire:navigate>
                                         {{ __('Progress') }}

@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Specialization;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;

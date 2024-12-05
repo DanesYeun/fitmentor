@@ -30,8 +30,13 @@
                 <x-input wire:model="email" class="block mt-1 w-full text-black" type="email" required/>
             </div>
             <div>
-                <label for="expertise" class="block text-sm font-medium text-black">Expertise</label>
-                <x-input wire:model="expertise" class="block mt-1 w-full text-black" type="text" required autofocus/>
+                <label for="specialization_id" class="block text-sm font-medium text-black">Expertise</label>
+                <select wire:model="specialization_id" class="mt-1 w-full text-black rounded-lg bg-white-500 hover:border-black border-slate-300 inline-flex items-center justify-between" required>
+                    <option class="inline-flex items-center justify-between" value="" selected>Select Expertise</option>
+                    @foreach ($specializations as $specialization)
+                        <option value="{{ $specialization->id }}">{{ $specialization->name }}</option>
+                    @endforeach
+                </select> 
             </div>
         </div>
 

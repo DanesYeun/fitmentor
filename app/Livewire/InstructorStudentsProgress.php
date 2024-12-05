@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Schedule;
+use App\Models\ScheduleRemarks;
 
 class InstructorStudentsProgress extends Component
 {
@@ -15,11 +16,16 @@ class InstructorStudentsProgress extends Component
     {
         $this->classes = Schedule::where('user_id', auth()->user()->id)
                                  ->where('status', 'Approved')
+                                 ->with('remarks')
                                  ->get();
+
 
         foreach ($this->classes as $class) {
             $this->progressValues[$class->id] = $class->progressing;
-            $this->remarks[$class->id] = $class->remarks;
+
+            foreach (['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'] as $day) {
+                $this->remarks[$class->id][$day] = $class->remarks->where('day', $day)->first()->remarks ?? '';
+            }
         }
     }
 
@@ -28,19 +34,74 @@ class InstructorStudentsProgress extends Component
         $class = Schedule::find($classId);
 
         if ($class && isset($this->progressValues[$classId])) {
-            $class->progressing = $this->progressValues[$classId];
+            $daysWithSchedule = 0;
+            $daysDone = 0;
+        
+            // check each day and count days with schedules and "Done" status
+            foreach (['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'] as $day) {
+                $start = $class->{$day . '_start'};
+                $end = $class->{$day . '_end'};
+        
+                if ($start && $end) {
+                    $daysWithSchedule++; 
+        
+                    if ($class->{$day} == 1) { 
+                        $daysDone++; 
+                    }
+                }
+            }
+        
+            // calculate progress
+            $totalProgress = ($daysWithSchedule > 0) 
+                ? ($daysDone / $daysWithSchedule) * 100 
+                : 0;
+        
+            $class->progressing = $totalProgress; 
             $class->save();
+        }
+        
+    }
+
+
+    public function updateRemarks($classId, $day)
+    {
+
+        $class = Schedule::find($classId);
+
+        if ($class && isset($this->remarks[$classId][$day])) {
+            $remark = ScheduleRemarks::where('schedule_id', $classId)
+                                    ->where('day', $day)
+                                    ->first();
+
+            if ($remark) {
+                $remark->remarks = $this->remarks[$classId][$day];
+                $remark->save();
+            } else {
+                ScheduleRemarks::create([
+                    'schedule_id' => $classId,
+                    'day' => $day,
+                    'remarks' => $this->remarks[$classId][$day]
+                ]);
+            }
         }
     }
 
-    public function updateRemarks($classId)
+    public function markAsDone($classId, $day)
     {
-        $class = Schedule::find($classId);
+        Schedule::where('id', $classId)
+            ->update([$day => 1]);
 
-        if ($class && isset($this->remarks[$classId])) {
-            $class->remarks = $this->remarks[$classId];
-            $class->save();
-        }
+        $this->updateProgress($classId);
+        $this->mount();
+    }
+
+    public function markAsCancelled($classId, $day)
+    {
+        Schedule::where('id', $classId)
+            ->update([$day => 0]);
+
+        $this->updateProgress($classId);
+        $this->mount();
     }
 
     public function render()

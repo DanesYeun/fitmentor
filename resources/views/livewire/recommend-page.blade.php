@@ -102,119 +102,39 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @if($schedule->sunday_start || $schedule->sunday_end)
-                                            <tr>
-                                                <td class="p-2 text-center border border-black">Sunday</td>
-                                                <td class="p-2 text-center border border-black">
-                                                    @if($schedule->sunday_start)
-                                                        {{ \Carbon\Carbon::parse($schedule->sunday_start)->format('g:i A') }}
-                                                    @endif
-                                                </td>
-                                                <td class="p-2 text-center border border-black">
-                                                    @if($schedule->sunday_end)
-                                                        {{ \Carbon\Carbon::parse($schedule->sunday_end)->format('g:i A') }}
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            @endif
-
-                                            @if($schedule->monday_start || $schedule->monday_end)
-                                            <tr>
-                                                <td class="p-2 text-center border border-black">Monday</td>
-                                                <td class="p-2 text-center border border-black">
-                                                    @if($schedule->monday_start)
-                                                        {{ \Carbon\Carbon::parse($schedule->monday_start)->format('g:i A') }}
-                                                    @endif
-                                                </td>
-                                                <td class="p-2 text-center border border-black">
-                                                    @if($schedule->monday_end)
-                                                        {{ \Carbon\Carbon::parse($schedule->monday_end)->format('g:i A') }}
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            @endif
-
-                                            @if($schedule->tuesday_start || $schedule->tuesday_end)
-                                            <tr>
-                                                <td class="p-2 text-center border border-black">Tuesday</td>
-                                                <td class="p-2 text-center border border-black">
-                                                    @if($schedule->tuesday_start)
-                                                        {{ \Carbon\Carbon::parse($schedule->tuesday_start)->format('g:i A') }}
-                                                    @endif
-                                                </td>
-                                                <td class="p-2 text-center border border-black">
-                                                    @if($schedule->tuesday_end)
-                                                        {{ \Carbon\Carbon::parse($schedule->tuesday_end)->format('g:i A') }}
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            @endif
-
-                                            @if($schedule->wednesday_start || $schedule->wednesday_end)
-                                            <tr>
-                                                <td class="p-2 text-center border border-black">Wednesday</td>
-                                                <td class="p-2 text-center border border-black">
-                                                    @if($schedule->wednesday_start)
-                                                        {{ \Carbon\Carbon::parse($schedule->wednesday_start)->format('g:i A') }}
-                                                    @endif
-                                                </td>
-                                                <td class="p-2 text-center border border-black">
-                                                    @if($schedule->wednesday_end)
-                                                        {{ \Carbon\Carbon::parse($schedule->wednesday_end)->format('g:i A') }}
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            @endif
-
-                                            @if($schedule->thursday_start || $schedule->thursday_end)
-                                            <tr>
-                                                <td class="p-2 text-center border border-black">Thursday</td>
-                                                <td class="p-2 text-center border border-black">
-                                                    @if($schedule->thursday_start)
-                                                        {{ \Carbon\Carbon::parse($schedule->thursday_start)->format('g:i A') }}
-                                                    @endif
-                                                </td>
-                                                <td class="p-2 text-center border border-black">
-                                                    @if($schedule->thursday_end)
-                                                        {{ \Carbon\Carbon::parse($schedule->thursday_end)->format('g:i A') }}
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            @endif
-
-                                            @if($schedule->friday_start || $schedule->friday_end)
-                                            <tr>
-                                                <td class="p-2 text-center border border-black">Friday</td>
-                                                <td class="p-2 text-center border border-black">
-                                                    @if($schedule->friday_start)
-                                                        {{ \Carbon\Carbon::parse($schedule->friday_start)->format('g:i A') }}
-                                                    @endif
-                                                </td>
-                                                <td class="p-2 text-center border border-black">
-                                                    @if($schedule->friday_end)
-                                                        {{ \Carbon\Carbon::parse($schedule->friday_end)->format('g:i A') }}
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            @endif
-
-                                            @if($schedule->saturday_start || $schedule->saturday_end)
-                                            <tr>
-                                                <td class="p-2 text-center border border-black">Saturday</td>
-                                                <td class="p-2 text-center border border-black">
-                                                    @if($schedule->saturday_start)
-                                                        {{ \Carbon\Carbon::parse($schedule->saturday_start)->format('g:i A') }}
-                                                    @endif
-                                                </td>
-                                                <td class="p-2 text-center border border-black">
-                                                    @if($schedule->saturday_end)
-                                                        {{ \Carbon\Carbon::parse($schedule->saturday_end)->format('g:i A') }}
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            @endif
+                                            @php
+                                                $displayed = false;  
+                                            @endphp
+                                        
+                                            @foreach (['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as $day)
+                                                @php
+                                                    $start = $schedule->{$day . '_start'};
+                                                    $end = $schedule->{$day . '_end'};
+                                                @endphp
+                                        
+                                                @if(($start || $end) && !$displayed)
+                                                    <tr>
+                                                        <td class="p-2 text-center border border-black">{{ ucfirst($day) }}</td>
+                                                        <td class="p-2 text-center border border-black">
+                                                            @if($start)
+                                                                {{ \Carbon\Carbon::parse($start)->format('g:i A') }}
+                                                            @endif
+                                                        </td>
+                                                        <td class="p-2 text-center border border-black">
+                                                            @if($end)
+                                                                {{ \Carbon\Carbon::parse($end)->format('g:i A') }}
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                    @php
+                                                        $displayed = true; 
+                                                    @endphp
+                                                @endif
+                                            @endforeach
                                         </tbody>
+                                        
                                     </table>
+                                    
         
                                     <div class="flex justify-end mt-4">
                                         <x-button wire:click="refreshPage" class="bg-gray-300">Close</x-button>

@@ -75,4 +75,9 @@ class Schedule extends Model
     {
         return $this->hasMany(Programschedule::class, 'schedule_id');
     }
+
+    public function remarks()
+    {
+        return $this->hasMany(ScheduleRemarks::class, 'schedule_id');
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Livewire;
+use App\Models\Specialization;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
 use Livewire\Component;
@@ -16,7 +17,7 @@ class StaffProfiling extends Component
     public $image;
     public $name;
     public $email;
-    public $expertise;
+    public $specialization_id;
     public $programs =  [];
 
     protected $rules = [
@@ -28,12 +29,13 @@ class StaffProfiling extends Component
     public function mount()
     {
         $user = Auth::user();
+        //dd($user);
         $this->programs = Schedule::where('user_id', $user->id)->get();        
 
         $this->userId = $user->id;
         $this->name = $user->name;
         $this->email = $user->email;
-        $this->expertise = $user->expertise;
+        $this->specialization_id = $user->specialization_id;
 
         $this->image = $user->profile_photo_path;
     }
@@ -57,7 +59,7 @@ class StaffProfiling extends Component
             'name' => $this->name,
             'email' => $this->email,
             'profile_photo_path' => $imagePath,
-            'expertise' => $this->expertise
+            'specialization_id' => $this->specialization_id
         ]);
 
         // Flash success message
@@ -69,6 +71,7 @@ class StaffProfiling extends Component
 
     public function render()
     {
-        return view('livewire.staff-profiling');
+        $specializations = Specialization::all();
+        return view('livewire.staff-profiling', compact('specializations'));
     }
 }

@@ -34,22 +34,18 @@ class StudentPage extends Component
         $user = Auth::user();
         $profile = Profile::where('user_id', $user->id)->first();
         $suggestions = null;
-        $suggestedInstructors = null; // New variable for suggested instructors
-        
-        if (!is_null($profile->goal)) {
+        $suggestedInstructors = null;
+        if (!is_null($profile)) {
             $profile_goals = explode(",", $profile->goal);
+            $profile_areas = explode(",", $profile->area);
+            $focus_area_ids = FocusArea::whereIn('name', $profile_areas)->pluck('id');
         } else {
             $profile_goals = null;
-        }
-        
-        if (!is_null($profile->area)) {
-            $profile_areas = explode(",", $profile->area);
-        } else {
             $profile_areas = null;
+            $focus_area_ids = null;
         }
     
         $profile_level = $profile->level ?? null;
-        $focus_area_ids = FocusArea::whereIn('name', $profile_areas)->pluck('id');
         $suggestedCoaches = [];
         if (!$profile) {
             $recommends = Schedule::where('status', 'Available')->paginate(6);

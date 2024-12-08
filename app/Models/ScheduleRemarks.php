@@ -13,13 +13,33 @@ class ScheduleRemarks extends Model
 
     protected $fillable = [
         'schedule_id',
-        'day',
-        'remarks'
+        'week',
+        'sunday_start',
+        'monday_start',
+        'tuesday_start',
+        'wednesday_start',
+        'thursday_start',
+        'friday_start',
+        'saturday_start',
+        'sunday_end',
+        'monday_end',
+        'tuesday_end',
+        'wednesday_end',
+        'thursday_end',
+        'friday_end',
+        'saturday_end',
+        'remarks',
+        'attendance_id'
     ];
 
     public function schedule()
     {
         return $this->belongsTo(Schedule::class, 'schedule_id');
+    }
+
+    public function attendance()
+    {
+        return $this->belongsTo(Attendance::class, 'attendance_id', 'id');
     }
 
 }

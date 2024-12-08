@@ -14,10 +14,26 @@ return new class extends Migration
         Schema::create('schedule_remarks', function (Blueprint $table) {
             $table->bigIncrements('id'); 
             $table->unsignedBigInteger('schedule_id');
-            $table->string('day', 20)->nullable(); 
+            $table->tinyInteger('week')->default(0);
+            $table->time('sunday_start')->nullable();
+            $table->time('sunday_end')->nullable();
+            $table->time('monday_start')->nullable();
+            $table->time('monday_end')->nullable();
+            $table->time('tuesday_start')->nullable();
+            $table->time('tuesday_end')->nullable();
+            $table->time('wednesday_start')->nullable();
+            $table->time('wednesday_end')->nullable();
+            $table->time('thursday_start')->nullable();
+            $table->time('thursday_end')->nullable();
+            $table->time('friday_start')->nullable();
+            $table->time('friday_end')->nullable();
+            $table->time('saturday_start')->nullable();
+            $table->time('saturday_end')->nullable();
             $table->string('remarks', 255)->nullable(); 
+            $table->unsignedTinyInteger('attendance_id');
     
             $table->foreign('schedule_id')->references('id')->on('schedules')->onDelete('cascade'); 
+            $table->foreign('attendance_id')->references('id')->on('attendance')->onDelete('cascade'); 
     
         });
     }

@@ -101,6 +101,10 @@
                                     <option value="Expert">Expert</option>
                                 </select>   
                             </div>
+
+                            <div class="mt-4 w-full sm:w-1/3">
+                                <input id="numberofweek" type="number" class="mt-1.5 w-full text-black rounded-lg bg-gray-200 hover:border-black border-slate-300" wire:model="numberofweek" placeholder="Enter Weeks">
+                            </div>
                         </div>
 
 

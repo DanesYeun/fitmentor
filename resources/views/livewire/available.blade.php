@@ -1,4 +1,5 @@
 <div class="w-full">
+    @if(!$allscheds->isEmpty())
             <div class="w-3/4 flex justify-between mx-auto mt-10">
                 <div>
                     <span class="text-black">Show</span>
@@ -215,6 +216,14 @@
             </div>
             </div>
         </div>
+
+    @else
+
+        <div class="mt-4 p-4 border border-gray-300 bg-gray-50 rounded-lg text-center">
+            <h2 class="text-lg font-semibold text-gray-700">No Classes Available</h2>
+            <p class="text-gray-500">Currently, there are no classes available. Please check back later!</p>
+        </div>
+    @endif
 </div>
 <script>
     function toggleExercises(id) {

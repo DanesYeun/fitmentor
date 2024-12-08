@@ -19,6 +19,7 @@ class ProgramPage extends Component
     public $selectedprogram, $focus, $level,$goal,$program, $selectedItems = [];
     public $sunday_start, $sunday_end, $monday_start, $monday_end, $tuesday_start, $tuesday_end, $wednesday_start, $wednesday_end, $thursday_start, $thursday_end, $friday_start, $friday_end, $saturday_start, $saturday_end;
     public $dropdownVisible = false;
+    public $numberofweek;
 
     
     public function toggleDropdown()
@@ -43,36 +44,40 @@ class ProgramPage extends Component
 
     public function createschedule()
     {
-        $counts = [
-            'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'
-        ];
+        $daysOfWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        // dd($this->sunday_end);
         $nonNullDayCount = 0;
-        foreach ($counts as $count) {
+        foreach ($daysOfWeek as $count) {
             if (!empty($this->{$count . '_start'}) || !empty($this->{$count . '_end'})) {
                 $nonNullDayCount++;
             }
         }
 
-    $validDay = false;
-        $days = [
-            ['start' => $this->sunday_start, 'end' => $this->sunday_end],
-            ['start' => $this->monday_start, 'end' => $this->monday_end],
-            ['start' => $this->tuesday_start, 'end' => $this->tuesday_end],
-            ['start' => $this->wednesday_start, 'end' => $this->wednesday_end],
-            ['start' => $this->thursday_start, 'end' => $this->thursday_end],
-            ['start' => $this->friday_start, 'end' => $this->friday_end],
-            ['start' => $this->saturday_start, 'end' => $this->saturday_end],
-        ];
-        foreach ($days as $day) {
-            if (!is_null($day['start']) && !is_null($day['end'])) {
+        $validDay = false;
+        foreach ($daysOfWeek as $day) {
+            if (!is_null($this->{$day . '_start'}) && !is_null($this->{$day . '_end'})) {
                 $validDay = true;
-                break;     
+                break;
             }
         }
+
         if (!$validDay) {
             session()->flash('message1', 'Please set at least one start time and one end time for the same day!');
             return;
         }
+
+        // Format times to 12-hour format
+          // Convert times to 24-hour format for saving in the database
+        foreach ($daysOfWeek as $day) {
+            if (!empty($this->{$day . '_start'})) {
+                $this->{$day . '_start'} = \Carbon\Carbon::createFromFormat('h:i A', $this->{$day . '_start'})->format('H:i:s');
+            }
+            if (!empty($this->{$day . '_end'})) {
+                $this->{$day . '_end'} = \Carbon\Carbon::createFromFormat('h:i A', $this->{$day . '_end'})->format('H:i:s');
+            }
+        }
+
+        
 
         if ($validDay){
             // Create a new schedule
@@ -99,6 +104,7 @@ class ProgramPage extends Component
                 'progress' => $nonNullDayCount,
                 'status' => 'Available',
                 'progressing' => 0,
+                'numberofweek' => $this->numberofweek ?? 0
 
             ]);
 

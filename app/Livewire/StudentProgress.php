@@ -5,26 +5,30 @@ namespace App\Livewire;
 use App\Models\Profile;
 use App\Models\Programschedule;
 use App\Models\Schedule;
+use App\Models\User;
 use Livewire\Component;
 
 class StudentProgress extends Component
 {
     public $showModal = false;
     public $selectedClass;
+    
     public function render()
     {
-        $profile = Profile::where('user_id', auth()->user()->id)->first();
+        $profile = User::where('id', auth()->user()->id)->first();
 
-        if(!is_null($profile))
-        {
-            $classes = Schedule::all()->where('student_id', $profile->user_id);
-        } else{
-            $classes = null;
+        if (!is_null($profile)) {
+           
+            $classes = Schedule::where('student_id', $profile->id)
+                                ->where('status', 'Approved')
+                                ->with(['sched_remarks', 'sched_remarks.attendance'])
+                                ->get();
+
+        } else {
+            $classes = collect(); // Empty collection if no profile is found
         }
-        
 
-        $exercises = Programschedule::get();
-        return view('livewire.student-progress', compact('classes', 'exercises'));
+        return view('livewire.student-progress', compact('classes'));
     }
 
     public function viewClass($classId)

@@ -48,71 +48,70 @@
 
                 <!-- Accordion Content -->
                 <div x-show="open" class="mt-4 p-4 border-t border-gray-300">
-                    <table class="table-auto w-full text-center">
-                        <thead>
-                            <tr class="bg-gray-200">
-                                <th class="p-2">Day</th>
-                                <th class="p-2">Start</th>
-                                <th class="p-2">End</th>
-                                <th class="p-2">Remarks</th>
-                                <th class="p-2">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'] as $day)
-                                @php
-                                    $start = $class->{$day . '_start'};
-                                    $end = $class->{$day . '_end'};
-                                    $remark = $class->remarks->firstWhere('day', $day);
-                                @endphp
-                                @if ($start && $end)
-                                    <tr>
-                                        <td class="p-2 capitalize">{{ ucfirst($day) }}</td>
-                                        <td class="p-2">{{ $start }}</td>
-                                        <td class="p-2">{{ $end }}</td>
-                                        <td class="p-2">
-                                            <input 
-                                                type="text" 
-                                                wire:model="remarks.{{ $class->id }}.{{ $day }}" 
-                                                class="border border-gray-300 rounded-md p-1 w-full"
-                                                placeholder="Add remarks..."
-                                                value="{{ $remark ? $remark->remarks : '' }}"
-                                                wire:blur="updateRemarks('{{ $class->id }}', '{{ $day }}')"
-                                            />
-                                        </td>
-                                        <td class="p-2">
-                                            @if ($class->{$day} === 0)
+                    @foreach ($class->sched_remarks->groupBy('week') as $week => $remarks)
+                        <h3 class="font-semibold text-lg">Week {{ $week }}</h3>
+                        <table class="table-auto w-full text-center mb-4">
+                            <thead>
+                                <tr class="bg-gray-200">
+                                    <th class="p-2">Day</th>
+                                    <th class="p-2">Start</th>
+                                    <th class="p-2">End</th>
+                                    <th class="p-2">Remarks</th>
+                                    <th class="p-2">Status</th>
+                                    <th class="p-2">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'] as $day)
+                                    @php
+                                        // Find the corresponding schedule for the current day and week
+                                        $schedule = $remarks->firstWhere($day . '_start', '!=', null);
+                                    @endphp
+                                    @if ($schedule)
+                                        <tr>
+                                            <td class="p-2 capitalize">{{ ucfirst($day) }}</td>
+                                            <td class="p-2">{{ \Carbon\Carbon::parse($schedule->{$day . '_start'})->format('h:i A') }}</td>
+                                            <td class="p-2">{{ \Carbon\Carbon::parse($schedule->{$day . '_end'})->format('h:i A') }}</td>
+                                            <td class="p-2">
+                                                <input 
+                                                    type="text" 
+                                                    wire:model="remarks.{{ $schedule->id }}" 
+                                                    class="border border-gray-300 rounded-md p-1 w-full" 
+                                                    placeholder="Add remarks..."
+                                                    wire:blur="updateRemarks('{{ $schedule->id }}')"
+                                                />
+                                            </td>
+                                           
+                                            <td class="p-2">{{ $schedule->attendance->description }}</td>
+                                            <td class="p-2">
                                                 <button 
                                                     class="bg-gray-500 hover:bg-gray-700 text-white text-sm font-bold py-1 px-3 rounded"
-                                                    wire:click="markAsDone('{{ $class->id }}', '{{ $day }}')"
+                                                    wire:click="markAsDone('{{ $class->id }}', '{{ $schedule->id }}')"
                                                 >
                                                     Done
                                                 </button>
-                                            @else
+                                                <button 
+                                                    class="bg-gray-500 hover:bg-gray-700 text-white text-sm font-bold py-1 px-3 rounded"
+                                                    wire:click="markAsAbsent('{{ $class->id }}', '{{ $schedule->id }}')"
+                                                >
+                                                    Absent
+                                                </button>
                                                 <button 
                                                     class="bg-red-500 hover:bg-red-700 text-white text-sm font-bold py-1 px-3 rounded"
-                                                    wire:click="markAsCancelled('{{ $class->id }}', '{{ $day }}')"
+                                                    wire:click="markAsCancelled('{{ $class->id }}', '{{ $schedule->id }}')"
                                                 >
                                                     Revert
                                                 </button>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endif
-                            @endforeach
-
-                        </tbody>
-                    </table>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @endforeach
                 </div>
             </div>
         </div>
     @endforeach
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        Livewire.on('refreshPage', () => {
-            window.location.reload();
-        });
-    });
-</script>

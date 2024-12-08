@@ -3,12 +3,10 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use App\Models\Program;
-use App\Models\User;
 use App\Models\Programschedule;
 use App\Models\Schedule;
+use App\Models\ScheduleRemarks;
 use Livewire\WithPagination;
-use Illuminate\Http\Request;
 
 class Pending extends Component
 {
@@ -84,12 +82,35 @@ class Pending extends Component
     public function Enroll($scheduleID)
     {
         $cancelEnroll = Schedule::find($scheduleID);
-            if ($cancelEnroll) {
-                $cancelEnroll->update([
-                    'status' => 'Approved',
-                    'student_id' => $cancelEnroll->student->id,
-                ]);
+        
+        if ($cancelEnroll) {
+            $cancelEnroll->update([
+                'status' => 'Approved',
+                'student_id' => $cancelEnroll->student->id,
+            ]);
+
+            $numberofweek = $cancelEnroll->numberofweek;
+            for($i = 1; $i <= $numberofweek; $i++){
+                foreach (['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'] as $day) {
+                    $start = $cancelEnroll->{$day . '_start'};
+                    $end = $cancelEnroll->{$day . '_end'};
+            
+                    if ($start && $end) {
+                        ScheduleRemarks:: create([
+                            'schedule_id' => $cancelEnroll->id,
+                            'week' => $i,
+                            "{$day}_start" => $start,
+                            "{$day}_end" => $end,
+                            'remarks' => null,
+                            'attendance_id' => 1
+                        ]);
+                    }
+                }
             }
+
+        }
+
+        
         session()->flash('message', 'Enrollment Approved.');
         $this->reset();
     }

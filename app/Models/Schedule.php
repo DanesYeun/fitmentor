@@ -34,14 +34,7 @@ class Schedule extends Model
         'student_id',
         'progress',
         'progressing',
-        'remarks',
-        'm',
-        't',
-        'w',
-        'th',
-        'f',
-        'sat',
-        'sun'
+        'numberofweek'
     ];
     
     public function user()
@@ -76,7 +69,7 @@ class Schedule extends Model
         return $this->hasMany(Programschedule::class, 'schedule_id');
     }
 
-    public function remarks()
+    public function sched_remarks()
     {
         return $this->hasMany(ScheduleRemarks::class, 'schedule_id');
     }

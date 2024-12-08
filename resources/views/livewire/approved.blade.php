@@ -1,9 +1,10 @@
 <div class="w-full">
-@if (session()->has('message'))
-    <div class="p-4 bg-green-500 rounded-lg text-green-800 text-lg font-semibold shadow-md flex justify-center mx-auto w-1/3">
-        {{ session('message') }}
-    </div>
-@endif
+    @if (session()->has('message'))
+        <div class="p-4 bg-green-500 rounded-lg text-green-800 text-lg font-semibold shadow-md flex justify-center mx-auto w-1/3">
+            {{ session('message') }}
+        </div>
+    @endif
+    @if(!$allscheds->isEmpty())
             <div class="w-3/4 flex justify-between mx-auto mt-10">
                 <div>
                     <span class="text-black">Show</span>
@@ -44,7 +45,7 @@
                                 <th class="py-2">{{ $allsched->user->name }}</th>
                                 <th class="py-2">{{ $allsched->status }}</th>
                                 <th class="py-2">                                   
-                                <div class="inline-block text-left">
+                                    <div class="inline-block text-left">
                                         <button id="dropdownButton-{{ $allsched->id }}" class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center" onclick="toggleDropdown({{ $allsched->id }})">
                                             <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
@@ -234,6 +235,13 @@
             </div>
             </div>
         </div>
+    @else
+
+        <div class="mt-4 p-4 border border-gray-300 bg-gray-50 rounded-lg text-center">
+            <h2 class="text-lg font-semibold text-gray-700">No Approved Students</h2>
+            <p class="text-gray-500">Currently, there are no approved students at the moment. Please check back later!</p>
+        </div>
+    @endif
 </div>
 <script>
     function toggleDropdown(scheduleId) {

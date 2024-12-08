@@ -7,6 +7,7 @@ use App\Models\Program;
 use App\Models\User;
 use App\Models\Programschedule;
 use App\Models\Schedule;
+use App\Models\ScheduleRemarks;
 use Livewire\WithPagination;
 use Illuminate\Http\Request;
 
@@ -72,12 +73,16 @@ class Approved extends Component
     public function cancelEnroll($scheduleID)
     {
         $cancelEnroll = Schedule::find($scheduleID);
-            if ($cancelEnroll) {
-                $cancelEnroll->update([
-                    'status' => Null,
-                    'student_id' => Null,
-                ]);
-            }
+
+        if ($cancelEnroll) {
+            $cancelEnroll->update([
+                'status' => Null,
+                'student_id' => Null,
+            ]);
+
+            ScheduleRemarks::where('schedule_id', $cancelEnroll->id)->delete();
+        }
+
         session()->flash('message', 'Enrollment cancelled.');
         $this->reset();
     }

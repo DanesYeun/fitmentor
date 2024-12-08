@@ -1,9 +1,9 @@
 <div class="sm:m-8 lg:m-3 rounded grid grid-cols-1 sm:grid-cols-3 flex justify-center text-black gap-2">
     @if(!$profile)
-        <div class="col-span-2 mx-auto w-full flex items-center justify-between grid grid-cols-6">
+        <div class="col-span-3 w-full flex items-center justify-between">
             <h1 class="col-span-5 text-black">Set your Profile first</h1>
-            <a href="{{ route('profiling') }}">
-                <x-button class="col-span-1 bg-gray-100 shadow-lg">Setup Profile</x-button>
+            <a class="col-span-1" href="{{ route('profiling') }}">
+                <x-button class="bg-gray-100 shadow-lg">Setup Profile</x-button>
             </a>
         </div>
     @else
@@ -63,27 +63,35 @@
             </h1>
             @if (!is_null($suggestedCoaches))   
                 @foreach($suggestedCoaches as $coach)
-                    <div class="flex justify-center mt-2 mb-5">
-                        <div class="w-full rounded overflow-hidden shadow-lg bg-gray-100 p-3">
-                            <div class="flex justify-center">
-                                <span class="font-xl text-xl font-bold uppercase">
+                    <div x-data="{ open: false }" class="flex justify-center mt-2 mb-5">
+                        <div @click="open = !open" class="w-full rounded overflow-hidden shadow-lg bg-gray-100 p-3">
+                            <div class=" text-start flex flex-cols content-center gap-2">
+                                <img class="h-8 w-8 rounded-full object-cover"  
+                                    src="{{ is_null($coach->profile_photo_path) ? asset($coach->profile_photo_url) : Storage::url('profile-photos/' . basename($coach->profile_photo_path))  }}"
+                                    alt="{{ $coach->name }}" />
+                                <span class="font-xl text-xl pt-1 font-bold uppercase">
                                     <strong>{{ $coach->name }}</strong>
                                 </span>
                             </div>
-                            <div class="mt-2 grid grid-cols-1 gap-4">
+                            <div x-show="open" class="mt-4 p-4 border-t border-gray-300">
                                 <div>
                                     <p><strong>Expertise: {{ $coach->specialization->name }}</strong></p>
                                     <p><strong>Email: {{ $coach->email }}</strong></p>
-                                    @foreach ($recommendedClasses->where('user_id', $coach->id) as $class)
-                                    <div class="flex gap-2 justify-between px-2 m-1">
-                                        <span class="font-sm text-sm font-bold uppercase">
-                                            <strong>{{ $class->program }}</strong>
-                                        </span>
-                                        <x-button class="bg-gray-500 shadow-lg h-6" wire:click="enrollConfirm({{ $class->id }})">Enroll</x-button>
-                                    </div>  
-                                    @endforeach
+                                    @if (!is_null($recommendedClasses->where('user_id', $coach->id)))
+                                    <p class="px-2 m-1"><strong>Program</strong></p>
+                                        @foreach ($recommendedClasses->where('user_id', $coach->id) as $class)
+                                            <div class="flex gap-2 justify-between px-2 m-1">
+                                                <span class="font-sm text-sm font-bold uppercase">
+                                                    <strong>{{ $class->program }}</strong>
+                                                </span>
+                                                <x-button class="bg-gray-500 shadow-lg h-6" wire:click="enrollConfirm({{ $class->id }})">Enroll</x-button>
+                                            </div>
+                                        @endforeach 
+                                    @else
+                                        <span>No classes</span>
+                                    @endif         
                                 </div>
-                            </div>                
+                            </div>              
                         </div>
                     </div>
                 @endforeach

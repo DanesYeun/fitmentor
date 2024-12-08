@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="flex gap-2 justify-end py-10 px-2">
                                     <x-button class="bg-gray-500 shadow-lg h-10" wire:click="viewRecommend ({{$recommend->id}})">View</x-button>
-                                    <x-button class="bg-gray-500 shadow-lg h-10" wire:click="enrollConfirm({{ $recommend->id }})">Enroll</x-button>
+                                    <!-- <x-button class="bg-gray-500 shadow-lg h-10" wire:click="enrollConfirm({{ $recommend->id }})">Enroll</x-button> -->
                                 </div>  
                             </div>                
                         </div>
@@ -78,7 +78,7 @@
                                     <p><strong>Expertise: {{ $coach->specialization->name }}</strong></p>
                                     <p><strong>Email: {{ $coach->email }}</strong></p>
                                     @if (!is_null($recommendedClasses->where('user_id', $coach->id)))
-                                    <p class="px-2 m-1"><strong>Program</strong></p>
+                                    <p class="px-2 m-1"><strong>Program/s</strong></p>
                                         @foreach ($recommendedClasses->where('user_id', $coach->id) as $class)
                                             <div class="flex gap-2 justify-between px-2 m-1">
                                                 <span class="font-sm text-sm font-bold uppercase">

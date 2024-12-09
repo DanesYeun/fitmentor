@@ -17,7 +17,7 @@
                         <h1 class="font-bold uppercase">Program: {{ $class->program }}</h1>
                         <span>Goal: {{ $class->goal }}</span>
                         <h5>Level: {{ $class->level }}</h5>
-                        <h3>Instructor: {{ $class->user->name }}</h3>
+                        <h3>Student: {{ $class->student->name }}</h3>
                     </div>
                     <div>
                         <!-- Progress Slider -->

@@ -64,6 +64,7 @@
                             <x-modal>  
                                 <div class="recommend-item w-full max-w-4xl p-4 border rounded-lg shadow bg-gray-100 text-black">
                                     <div class="grid grid-cols-2">
+                                    <div class="col-span-1 grid grid-cols-2">
                                         <div>
                                             <p class="text-lg font-bold">Program: {{ $schedule->program }}</p>
                                             <p class="text-lg">Goal: {{$schedule->goal}}</p>
@@ -75,7 +76,7 @@
                                             <p class="text-lg">Status: {{$schedule->status ?? 'Available'}}</p>
                                         </div>
                                     </div>
-
+                                    <div class="col-span-1 mt-10">
                                     <table class="w-full">
                                         <tr>
                                             <th class="border border-black h-10 w-1/3">Exercise</th>
@@ -134,7 +135,8 @@
                                         </tbody>
                                         
                                     </table>
-                                    
+                                    </div>
+                                    </div>
         
                                     <div class="flex justify-end mt-4">
                                         <x-button wire:click="refreshPage" class="bg-gray-300">Close</x-button>

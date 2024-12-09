@@ -21,6 +21,7 @@ class InstructorManager extends Component
     public $page = '5';
     public $showDeleteModal = false;
     public $showModal = false;
+    public $user_view;
 
 
     public function refreshPage()
@@ -30,7 +31,8 @@ class InstructorManager extends Component
 
     public function viewInstructor($userId)
     {
-        $this->user = User::find($userId);
+        // dd($userId);
+        $this->user_view = User::find($userId);
         $this->showModal = true;
     }
 
@@ -63,23 +65,23 @@ class InstructorManager extends Component
         }
 
             
-        $users = User::where('role', 'instructor')
+        $users = User::with('specialization')->where('role', 'instructor')
         ->when($this->search, function ($query) {
-        $terms = explode(' ', $this->search);
+            $terms = explode(' ', $this->search);
 
-        return $query->where(function ($subQuery) use ($terms) {
-            $subQuery->where(function ($nestedQuery) use ($terms) {
-                foreach ($terms as $term) {
-                    $nestedQuery->orWhere(function ($innerQuery) use ($term) {
-                        $innerQuery->where('name', 'like', '%' . $term . '%')
-                                   ->orWhere('email', 'like', '%' . $term . '%')
-                                   ->orWhere('role', 'like', '%' . $term . '%');
-                    });
-                }
+            return $query->where(function ($subQuery) use ($terms) {
+                $subQuery->where(function ($nestedQuery) use ($terms) {
+                    foreach ($terms as $term) {
+                        $nestedQuery->orWhere(function ($innerQuery) use ($term) {
+                            $innerQuery->where('name', 'like', '%' . $term . '%')
+                                    ->orWhere('email', 'like', '%' . $term . '%')
+                                    ->orWhere('role', 'like', '%' . $term . '%');
+                        });
+                    }
+                });
             });
-        });
-    })
-    ->paginate($this->page);
+        })
+        ->paginate($this->page);
 
         return view('livewire.instructor-manager', compact('users'));
     }

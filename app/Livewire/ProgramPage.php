@@ -54,8 +54,18 @@ class ProgramPage extends Component
         }
 
         $validDay = false;
-        foreach ($daysOfWeek as $day) {
-            if (!is_null($this->{$day . '_start'}) && !is_null($this->{$day . '_end'})) {
+        $days = [
+            ['start' => $this->sunday_start, 'end' => $this->sunday_end],
+            ['start' => $this->monday_start, 'end' => $this->monday_end],
+            ['start' => $this->tuesday_start, 'end' => $this->tuesday_end],
+            ['start' => $this->wednesday_start, 'end' => $this->wednesday_end],
+            ['start' => $this->thursday_start, 'end' => $this->thursday_end],
+            ['start' => $this->friday_start, 'end' => $this->friday_end],
+            ['start' => $this->saturday_start, 'end' => $this->saturday_end],
+        ];
+        
+        foreach ($days as $day) {
+            if (!is_null($day['start']) && !is_null($day['end'])) {
                 $validDay = true;
                 break;
             }
@@ -65,19 +75,6 @@ class ProgramPage extends Component
             session()->flash('message1', 'Please set at least one start time and one end time for the same day!');
             return;
         }
-
-        // Format times to 12-hour format
-          // Convert times to 24-hour format for saving in the database
-        foreach ($daysOfWeek as $day) {
-            if (!empty($this->{$day . '_start'})) {
-                $this->{$day . '_start'} = \Carbon\Carbon::createFromFormat('h:i A', $this->{$day . '_start'})->format('H:i:s');
-            }
-            if (!empty($this->{$day . '_end'})) {
-                $this->{$day . '_end'} = \Carbon\Carbon::createFromFormat('h:i A', $this->{$day . '_end'})->format('H:i:s');
-            }
-        }
-
-        
 
         if ($validDay){
             // Create a new schedule

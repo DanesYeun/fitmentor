@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\User;
+use App\Models\Specialization;
 
 class InstructorEdit extends Component
 {
@@ -12,6 +13,7 @@ class InstructorEdit extends Component
 
     public $user;
     public $name, $email, $role,$profile_photo,$expertise;
+    public $specialization_id;
 
     public function mount($user)
     {
@@ -19,6 +21,7 @@ class InstructorEdit extends Component
         $this->name = $this->user->name;
         $this->email = $this->user->email;
         $this->expertise = $this->user->expertise;
+        $this->specialization_id = $this->user->specialization_id;
         $this->role = $this->user->role;
     }
 
@@ -28,7 +31,7 @@ class InstructorEdit extends Component
             'name' => $this->name,
             'email' => $this->email,
             'role' => $this->role,
-            'expertise' => $this->expertise,
+            'specialization_id' => $this->specialization_id,
         ];
 
         if ($this->profile_photo) {
@@ -46,6 +49,8 @@ class InstructorEdit extends Component
         if (!auth()->check() || !in_array(auth()->user()->role, ['staff','admin'])) {
             abort(403, 'Unauthorized');
         }
-        return view('livewire.instructor-edit');
+
+        $specializations = Specialization::all();
+        return view('livewire.instructor-edit', compact('specializations'));
     }
 }

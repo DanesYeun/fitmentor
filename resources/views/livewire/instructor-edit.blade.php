@@ -35,7 +35,13 @@
 
         <div class="mb-4">
             <label for="expertise" class="block text-sm font-medium">Expertise</label>
-            <input type="text" id="expertise" wire:model="expertise" class="w-full p-2 border rounded-md" />
+            {{-- <input type="text" id="expertise" wire:model="expertise" class="w-full p-2 border rounded-md" /> --}}
+            <select wire:model="specialization_id" class="mt-1 w-full text-black rounded-lg bg-white-500 hover:border-black border-slate-300 inline-flex items-center justify-between" required>
+                <option class="inline-flex items-center justify-between" value="" selected>Select Expertise</option>
+                @foreach ($specializations as $specialization)
+                    <option value="{{ $specialization->id }}">{{ $specialization->name }}</option>
+                @endforeach
+            </select>
             @error('expertise') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         </div>
         

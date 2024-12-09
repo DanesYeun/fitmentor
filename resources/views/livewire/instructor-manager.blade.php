@@ -49,10 +49,11 @@
             </thead>
             <tbody>
                 @foreach ($users as $user)
+                
                 <tr class="bg-gray-100 text-black rounded-lg">
                     <th class="py-2">{{ $user->name }}</th>
                     <th class="py-2">{{ $user->email }}</th>
-                    <th class="py-2">{{ $user->expertise }}</th>
+                    <th class="py-2">{{ isset($user->specialization) ?  $user->specialization->name : '-'}}</th>
                     <th class="py-2">{{ ucwords($user->role) }}</th>
                     <th class="py-2">
                         <div class="inline-block text-left">
@@ -88,20 +89,20 @@
                         </div>
 
                         <div class="mx-auto w-1/3 shadow-lg rounded-full flex justify-center">
-                            @if ($user->profile_photo_path)
-                                <img src="{{ asset('storage/' . $user->profile_photo_path) }}" alt="Profile Photo" class="w-24 h-24 md:w-24 md:h-24 object-cover rounded-full">
+                            @if ($user_view->profile_photo_path)
+                                <img src="{{ asset('storage/' . $user_view->profile_photo_path) }}" alt="Profile Photo" class="w-24 h-24 md:w-24 md:h-24 object-cover rounded-full">
                             @else
                                 <div class="w-24 h-24 md:w-24 md:h-24 bg-gray-400 text-white flex items-center justify-center rounded-full text-xl font-bold leading-none p-5">
-                                    {{ strtoupper(substr($user->name, 0, 1)) }}
+                                    {{ strtoupper(substr($user_view->name, 0, 1)) }}
                                 </div>
                             @endif
                         </div>
 
                         <div class="mt-5">
-                            <p><strong>Name:</strong> {{ $user->name }}</p>
-                            <p><strong>Email:</strong> {{ $user->email }}</p>
-                            <p><strong>Expertise:</strong> {{ $user->expertise }}</p>
-                            <p><strong>Role:</strong> {{ ucwords($user->role) }}</p>
+                            <p><strong>Name:</strong> {{ $user_view->name }}</p>
+                            <p><strong>Email:</strong> {{ $user_view->email }}</p>
+                            <p><strong>Expertise:</strong> {{ isset($user_view->specialization) ?  $user_view->specialization->name : '-' }}</p>
+                            <p><strong>Role:</strong> {{ ucwords($user_view->role) }}</p>
                         </div>
 
                         <div class="flex justify-end mt-4">

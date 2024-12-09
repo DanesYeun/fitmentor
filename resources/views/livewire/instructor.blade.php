@@ -32,7 +32,13 @@
 
         <div class="block mt-4">
             <x-label for="expertise" value="{{ __('Expertise') }}" />
-                <x-input id="expertise" class="block mt-1 w-full bg-transparent text-black" type="text" wire:model="expertise" required />
+                {{-- <x-input id="expertise" class="block mt-1 w-full bg-transparent text-black" type="text" wire:model="expertise" required /> --}}
+            <select wire:model="specialization_id" class="mt-1 w-full text-black rounded-lg bg-white-500 hover:border-black border-slate-300 inline-flex items-center justify-between" required>
+                <option class="inline-flex items-center justify-between" value="" selected>Select Expertise</option>
+                @foreach ($specializations as $specialization)
+                    <option value="{{ $specialization->id }}">{{ $specialization->name }}</option>
+                @endforeach
+            </select> 
         </div>
                     
         <div class="block mt-4">

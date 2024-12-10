@@ -26,6 +26,9 @@ class FocusAreaMaker extends Component
         $this->reset();    
     }
 
+    public function resetPage(){
+        $this->reset();
+    }
 
     public function render()
     {

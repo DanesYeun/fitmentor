@@ -25,6 +25,10 @@ class ProgramMaker extends Component
             session()->flash('message', 'Program created successfully!');      
     }
 
+    public function resetPage(){
+        $this->reset();
+    }
+
     public function render()
     {
         return view('livewire.program-maker');

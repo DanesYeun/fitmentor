@@ -31,6 +31,10 @@ class ExerciseMaker extends Component
             $this->reset();    
     }
 
+    public function resetPage(){
+        $this->reset();
+    }
+
     public function render()
     {
         $focusAreas = FocusArea::all();

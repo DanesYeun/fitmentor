@@ -103,17 +103,13 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @php
-                                                $displayed = false;  
-                                            @endphp
-                                        
-                                            @foreach (['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as $day)
+                                            @foreach (['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'] as $day)
                                                 @php
                                                     $start = $schedule->{$day . '_start'};
                                                     $end = $schedule->{$day . '_end'};
                                                 @endphp
                                         
-                                                @if(($start || $end) && !$displayed)
+                                                @if(($start || $end))
                                                     <tr>
                                                         <td class="p-2 text-center border border-black">{{ ucfirst($day) }}</td>
                                                         <td class="p-2 text-center border border-black">
@@ -127,9 +123,6 @@
                                                             @endif
                                                         </td>
                                                     </tr>
-                                                    @php
-                                                        $displayed = true; 
-                                                    @endphp
                                                 @endif
                                             @endforeach
                                         </tbody>

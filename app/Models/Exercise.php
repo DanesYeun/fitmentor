@@ -13,7 +13,8 @@ class Exercise extends Model
         'name',
         'preparation',
         'execution',
-        'focus_area'
+        'focus_area',
+        'is_timed'
     ];
 
     public function schedules()

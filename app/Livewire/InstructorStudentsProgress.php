@@ -13,6 +13,7 @@ class InstructorStudentsProgress extends Component
     public $remarks = [];
     public $selectedWeek = 1;
     public $week = 1;
+    public $schedRemarks = [];
 
     public function mount()
     {
@@ -23,6 +24,7 @@ class InstructorStudentsProgress extends Component
         foreach ($this->classes as $class) {
 
             $this->progressValues[$class->id] = $class->progressing;
+            $this->schedRemarks[$class->id] = $class->remarks;
 
             $sched_remarks = ScheduleRemarks::where('schedule_id', $class->id)->get();
     
@@ -104,6 +106,15 @@ class InstructorStudentsProgress extends Component
             ->update(['attendance_id' => 3]);
 
         $this->updateProgress($classId);
+        $this->mount();
+    }
+
+    public function overallRemarks($classId)
+    {
+        Schedule::where('id', $classId)->update([
+            'remarks' => $this->schedRemarks[$classId] ?? '',
+        ]);
+    
         $this->mount();
     }
 

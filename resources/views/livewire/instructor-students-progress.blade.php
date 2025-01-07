@@ -43,6 +43,22 @@
                                 disabled
                             />
                         </div>
+
+                        <!-- Remarks Input -->
+                        <div class="mt-4">
+                            <label for="remarks-{{ $class->id }}" class="block text-xs font-semibold uppercase mb-2">
+                                Remarks
+                            </label>
+                            <textarea 
+                                id="remarks-{{ $class->id }}" 
+                                wire:model="schedRemarks.{{ $class->id }}" 
+                                wire:change="overallRemarks({{ $class->id }})"
+                                class="w-96 p-2 border border-gray-300 rounded-md"
+                                rows="3" 
+                                placeholder="Enter your remarks here..."
+                            ></textarea>
+                        </div>
+                        
                     </div>
                 </div>
 
@@ -82,7 +98,7 @@
                                                 />
                                             </td>
                                            
-                                            <td class="p-2">{{ $schedule->attendance->description }}</td>
+                                            <td class="p-2">{{ $schedule->attendance->description == "Present" ? "Completed" :  $schedule->attendance->description }}</td>
                                             <td class="p-2">
                                                 <button 
                                                     class="bg-gray-500 hover:bg-gray-700 text-white text-sm font-bold py-1 px-3 rounded"

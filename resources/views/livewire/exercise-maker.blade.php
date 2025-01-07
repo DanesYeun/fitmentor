@@ -34,6 +34,19 @@
                             </select>
                         </div>
 
+                        <div class="block mt-4">
+                            <div class="flex items-center">
+                                <input 
+                                    type="checkbox" 
+                                    id="is_timed" 
+                                    wire:model="is_timed" 
+                                    value="1" 
+                                    class="mr-2"
+                                />
+                                <x-label for="is_timed" value="{{ __('Is Timed') }}" />
+                            </div>                                                   
+                        </div>
+
                         <div class="flex flex-wrap justify-center mt-5 ml-8">
                             <div x-data="{ hover: false }" class="flex-1">
                                 <button 

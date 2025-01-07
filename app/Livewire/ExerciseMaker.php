@@ -8,7 +8,7 @@ use App\Models\FocusArea;
 
 class ExerciseMaker extends Component
 {
-    public $name, $preparation, $execution, $focus_area;
+    public $name, $preparation, $execution, $focus_area, $is_timed;
     
     public function create()
     {
@@ -16,15 +16,17 @@ class ExerciseMaker extends Component
         'name' => 'required|unique:programs',
         'preparation' => 'required|string',
         'execution' => 'required|string',
+        'is_timed' => 'boolean'
         ],[
             'name.unique' => 'Exercise is already created.',
         ]); 
-    
+            // dd($this->is_timed);
             Exercise::create([
                 'name' => ucwords($this->name),
                 'preparation' => $this->preparation,
                 'execution' => $this->execution,
-                'focus_area' => $this->focus_area
+                'focus_area' => $this->focus_area,
+                'is_timed' => $this->is_timed
             ]);
             
             session()->flash('message', 'Exercise created successfully!');  

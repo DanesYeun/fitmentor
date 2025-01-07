@@ -111,7 +111,7 @@
         </div>
         
 
-        {{-- Suggested Classes Section --}}
+        {{-- Suggested Exercises Section --}}
         <div class="col-span-3">
             <h1 class="font-xl text-xl font-bold uppercase sm:col-span-2 mt-10">
                 Recommended Exercises
@@ -129,8 +129,12 @@
                                 <div class="mt-2 grid grid-cols-1 gap-4">
                                     <div>
                                         <p><strong>Focus Area: {{ $suggestion['exercise']->focusArea->name}}</strong></p>
-                                        <p><strong>Reps: {{ $suggestion['reps'] }}</strong></p>
-                                        <p><strong>Sets: {{ $suggestion['sets'] }}</strong></p>
+                                        @if(isset($suggestion['time']))  {{-- Check if time is set --}}
+                                            <p><strong>Duration:</strong> {{ $suggestion['time'] }}</p>
+                                        @else
+                                            <p><strong>Reps:</strong> {{ $suggestion['reps'] }}</p>
+                                            <p><strong>Sets:</strong> {{ $suggestion['sets'] }}</p>
+                                        @endif
                                         <p><strong>Intensity: {{ $suggestion['intensity'] }}</strong></p>
                                         <p><strong>Preparation: {{ $suggestion['exercise']->preparation }}</strong></p>
                                         <p><strong>Execution: {{ $suggestion['exercise']->execution }}</strong></p>

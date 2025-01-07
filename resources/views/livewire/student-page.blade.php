@@ -233,7 +233,7 @@
                         @endif
                         @if($selectedRecommend->tuesday_start || $selectedRecommend->tuesday_end)
                         <tr>
-                            <td class="p-2 text-center border border-black">Teusday</td>
+                            <td class="p-2 text-center border border-black">Tuesday</td>
                             <td class="p-2 text-center border border-black">
                                 @if($selectedRecommend->tuesday_start)
                                     {{ \Carbon\Carbon::parse($selectedRecommend->tuesday_start)->format('g:i A') }}

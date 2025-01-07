@@ -16,7 +16,7 @@
         <div class="flex justify-center">
             <div class="w-80 h-48 rounded overflow-hidden shadow-lg bg-gray-50"> <!-- Set fixed width and height -->
               <div class="px-6 py-4">
-                <div class="font-bold text-black text-xl mb-2">Number of Available Enrollments</div>
+                <div class="font-bold text-black text-xl mb-2">Number of Available Schedules</div>
                 <p class="text-black text-base font-bold text-5xl font-3xl text-center mt-8">
                   {{$availables}}
                 </p>

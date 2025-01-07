@@ -22,7 +22,7 @@
                 <div class="mt-4 w-full sm:w-1/4">
                     <label for="gender" class="block text-sm font-medium text-black">Sex</label>
                     <select wire:model="gender" class="mt-1 w-full text-black rounded-lg bg-white-500 hover:border-black border-slate-300 inline-flex items-center justify-between" required>
-                        <option class="inline-flex items-center justify-between" value="" selected>Select a Gender</option>
+                        <option class="inline-flex items-center justify-between" value="" selected>Select a Sex</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                     </select>

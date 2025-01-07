@@ -52,7 +52,7 @@
                     </table>
                         @if($showModal)
                             <x-modal>  
-                                <div class="allsched-item w-full max-w-4xl p-4 border rounded-lg shadow bg-gray-400 text-black">
+                                <div class="allsched-item w-full max-w-4xl p-4 border rounded-lg shadow text-black">
                                     <div class="grid grid-cols-2">
                                         <div>
                                             <p class="text-lg font-bold">Program: {{ $schedule->program }}</p>

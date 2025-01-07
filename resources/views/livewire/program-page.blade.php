@@ -18,7 +18,7 @@
             {{ session('error') }}
         </div>
     @endif
-            <div class="items-center sm:pt-0 p-3 mx-auto w-3/4">
+            <div class="items-center sm:pt-0 p-5 mx-auto" style="width: 1150px;">
                 <div class="w-full px-6 py-4 shadow-md sm:rounded-lg bg-gray-300">
                     <form wire:submit.prevent="createschedule" enctype="multipart/form-data">
                         @csrf
@@ -41,7 +41,8 @@
                                     <option value="Improve Endurance">Improve Endurance</option>
                                     <option value="Build Muscle Mass">Build Muscle Mass</option>
                                     <option value="Boost Cardiovascular Fitness">Boost Cardiovascular Fitness</option>
-                                    <option value="Enhance Flexibility">Enhance Flexibility</option>   
+                                    <option value="Enhance Flexibility">Enhance Flexibility</option> 
+                                    <option value="Improve cardiovascular health">Improve cardiovascular health</option>     
                                 </select>   
                             </div>
                             <div class="mt-4 w-full sm:w-1/3">

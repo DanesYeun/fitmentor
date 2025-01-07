@@ -63,20 +63,20 @@
                         @if($showModal)
                             <x-modal>  
                                 <div class="recommend-item w-full max-w-4xl p-4 border rounded-lg shadow bg-gray-100 text-black">
-                                    <div class="grid grid-cols-2">
                                     <div class="col-span-1 grid grid-cols-2">
-                                        <div>
-                                            <p class="text-lg font-bold">Program: {{ $schedule->program }}</p>
+                                        <div class="col-span-2">
+                                            <div class="flex justify-between mb-2">
+                                                <p class="text-lg font-bold">Program: {{ $schedule->program }}</p>
+                                                <p class="text-lg">Status: {{$schedule->status ?? 'Available'}}</p>
+                                            </div> 
                                             <p class="text-lg">Goal: {{$schedule->goal}}</p>
                                             <p class="text-lg">Instructor: {{$schedule->user->name}}</p>
                                             <p class="text-lg">Student: {{$schedule->student->name ?? ''}}</p>
-                                            <p class="text-lg">Exercises</p>
-                                        </div>
-                                        <div class="flex flex-col items-end">
-                                            <p class="text-lg">Status: {{$schedule->status ?? 'Available'}}</p>
+                                            <p class="text-lg">Level: {{ $schedule->level }}</p>
                                         </div>
                                     </div>
-                                    <div class="col-span-1 mt-10">
+                                    <div class="col-span-1 mt-6">
+                                    <p class="text-lg">Exercises</p>
                                     <table class="w-full">
                                         <tr>
                                             <th class="border border-black h-10 w-1/3">Exercise</th>
@@ -93,8 +93,8 @@
                                             @endif
                                         @endforeach
                                     </table>
-
-                                    <table class="w-full border border-black mt-4">
+                                    <p class="text-lg mt-4">Schedule</p>
+                                    <table class="w-full border border-black">
                                         <thead>
                                             <tr>
                                                 <th class="p-2 text-center border border-black h-10 w-1/3">Day</th>
@@ -126,9 +126,7 @@
                                                 @endif
                                             @endforeach
                                         </tbody>
-                                        
                                     </table>
-                                    </div>
                                     </div>
         
                                     <div class="flex justify-end mt-4">

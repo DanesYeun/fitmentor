@@ -70,13 +70,20 @@ class StudentPage extends Component
                 ->through(function ($exercise) use ($profile) {
                     $exerciseDetails = $this->calculateExerciseParameters($exercise, $profile);
                     
-                    return [
+                    $result = [
                         'exercise' => $exercise,
-                        'reps' => $exerciseDetails['reps'],
-                        'sets' => $exerciseDetails['sets'],
                         'intensity' => $exerciseDetails['intensity'],
                         'focus_area_name' => $exercise->focusArea->name
                     ];
+            
+                    if (isset($exerciseDetails['time'])) {
+                        $result['time'] = $exerciseDetails['time'];
+                    } else {
+                        $result['reps'] = $exerciseDetails['reps'];
+                        $result['sets'] = $exerciseDetails['sets'];
+                    }
+            
+                    return $result;
                 });
 
                 $recommendedClasses = Schedule::where('status', 'Available')
@@ -148,6 +155,41 @@ class StudentPage extends Component
         $goals = is_string($profile->goal) ? explode(',', $profile->goal) : $profile->goal;
         
         $primaryGoal = is_array($goals) ? $goals[0] : $goals;
+
+        // Check if the exercise is timed
+        if ($exercise->is_timed) {
+            switch ($primaryGoal) {
+                case 'Weight Loss':
+                    return [
+                        'time' => '30 minutes',
+                        'intensity' => 'High'
+                    ];
+                
+                case 'Muscle Gain':
+                    return [
+                        'time' => '45 minutes',
+                        'intensity' => 'Moderate to High'
+                    ];
+                
+                case 'Endurance':
+                    return [
+                        'time' => '60 minutes',
+                        'intensity' => 'Moderate'
+                    ];
+                
+                case 'Flexibility':
+                    return [
+                        'time' => '20 minutes', 
+                        'intensity' => 'Low'
+                    ];
+                
+                default:
+                    return [
+                        'time' => '30 minutes', 
+                        'intensity' => 'Moderate'
+                    ];
+            }
+        }
 
         switch ($primaryGoal) {
             case 'Weight Loss':
